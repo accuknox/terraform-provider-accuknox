@@ -1,0 +1,359 @@
+package kubearmor
+
+import (
+	"context"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/rs/zerolog/log"
+	"k8s.io/apimachinery/pkg/api/errors"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+)
+
+func dataSourceKubearmorHostSecurityPolicy() *schema.Resource {
+	return &schema.Resource{
+		ReadContext: dataSourceKubearmorHostSecurityPolicyRead,
+		Schema: map[string]*schema.Schema{
+			"name": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"policy": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"namespace": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"severity": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"action": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"node_selector": {
+							Type:     schema.TypeList,
+							Computed: true,
+
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"match_labels": {
+										Type:     schema.TypeMap,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"file": {
+							Type:     schema.TypeList,
+							Computed: true,
+
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"match_directories": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"dir": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"read_only": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"owner_only": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"recursive": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"from_source": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															"path": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
+												},
+											},
+										},
+									},
+									"match_paths": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"path": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"read_only": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"owner_only": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"from_source": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															"path": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
+												},
+											},
+										},
+									},
+									"match_patterns": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"pattern": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"read_only": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"owner_only": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+						"process": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"match_directories": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"dir": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"owner_only": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"recursive": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"from_source": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															"path": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
+												},
+											},
+										},
+									},
+									"match_paths": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"path": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"owner_only": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"from_source": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															"path": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
+												},
+											},
+										},
+									},
+									"match_patterns": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"pattern": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"owner_only": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+						"capabilities": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"match_capabilities": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"capabilities": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+												"action": {
+													Type:     schema.TypeString,
+													Optional: true,
+												},
+												"from_source": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															"path": {
+																Type:     schema.TypeString,
+																Required: true,
+															},
+														},
+													},
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+						"network": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"match_protocols": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"protocol": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+												"from_source": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															"path": {
+																Type:     schema.TypeString,
+																Required: true,
+															},
+														},
+													},
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+}
+
+func dataSourceKubearmorHostSecurityPolicyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+	KSPClient, err := connectKubearmorClient()
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	name := d.Get("name").(string)
+	d.SetId(name)
+
+	policy, err := KSPClient.SecurityV1().KubeArmorHostPolicies().Get(context.Background(), d.Id(), metav1.GetOptions{})
+	if err != nil {
+		if statusErr, ok := err.(*errors.StatusError); ok && errors.IsNotFound(statusErr) {
+			d.SetId("")
+			return diag.FromErr(err)
+		}
+		log.Printf("[DEBUG] Received error: %#v", err)
+	}
+
+	if err := d.Set("policy", flattenHostPolicy(policy)); err != nil {
+		return diag.FromErr(err)
+
+	}
+
+	return nil
+}
