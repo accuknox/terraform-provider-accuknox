@@ -364,11 +364,7 @@ func expandSpec(d *schema.ResourceData) kcV1.KubeArmorPolicySpec {
 
 	spec.Severity = kcV1.SeverityType(d.Get("severity").(int))
 	spec.Action = kcV1.ActionType(d.Get("action").(string))
-	if tags, ok := d.Get("tags").([]interface{}); ok {
-		for _, t := range tags {
-			spec.Tags = append(spec.Tags, t.(string))
-		}
-	}
+
 	spec.Message = d.Get("message").(string)
 	spec.Selector = expandSelector(d.Get("selector").([]interface{}))
 	spec.File = expandFile(d.Get("file").([]interface{}))
@@ -645,7 +641,7 @@ func flattenPolicy(policy *kcV1.KubeArmorPolicy) []interface{} {
 	pol["namespace"] = policy.ObjectMeta.Namespace
 	pol["action"] = policy.Spec.Action
 	pol["severity"] = policy.Spec.Severity
-	pol["tags"] = policy.Spec.Tags
+	// pol["tags"] = policy.Spec.Tags
 	pol["message"] = policy.Spec.Message
 	pol["file"] = flattenFile(policy.Spec.File)
 	pol["process"] = flattenProcess(policy.Spec.Process)

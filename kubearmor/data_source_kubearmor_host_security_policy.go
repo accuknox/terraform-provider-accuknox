@@ -39,10 +39,10 @@ func dataSourceKubearmorHostSecurityPolicy() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tags": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
+						// "tags": {
+						// 	Type:     schema.TypeString,
+						// 	Computed: true,
+						// },
 						"message": {
 							Type:     schema.TypeString,
 							Computed: true,
