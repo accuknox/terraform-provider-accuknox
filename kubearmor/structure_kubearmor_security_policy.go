@@ -31,6 +31,9 @@ func expandMatchFilePath(matchPath map[string]interface{}) kcV1.FilePathType {
 	matchpath.OwnerOnly = matchPath["owner_only"].(bool)
 	matchpath.ReadOnly = matchPath["read_omly"].(bool)
 	matchpath.Action = kcV1.ActionType(matchPath["action"].(string))
+	matchpath.Severity = kcV1.SeverityType(matchPath["severity"].(int))
+	// matchpath.Tags = matchPath["tags"].([]string)
+	matchpath.Message = matchPath["message"].(string)
 	matchpath.FromSource = expandFromSource(matchPath["from_source"].([]interface{}))
 
 	return matchpath
@@ -56,6 +59,10 @@ func expandMatchFileDir(matchDir map[string]interface{}) kcV1.FileDirectoryType 
 	matchdir.ReadOnly = matchDir["read_only"].(bool)
 	matchdir.Recursive = matchDir["recursive"].(bool)
 	matchdir.Action = kcV1.ActionType(matchDir["action"].(string))
+	matchdir.Severity = kcV1.SeverityType(matchDir["severity"].(int))
+	// matchdir.Tags = matchDir["tags"].([]string)
+	matchdir.Message = matchDir["message"].(string)
+
 	matchdir.FromSource = expandFromSource(matchDir["from_source"].([]interface{}))
 
 	return matchdir
@@ -78,6 +85,10 @@ func expandMatchFilePattern(matchPattern map[string]interface{}) kcV1.FilePatter
 	matchpattern := kcV1.FilePatternType{}
 	matchpattern.Pattern = matchPattern["pattern"].(string)
 	matchpattern.Action = kcV1.ActionType(matchPattern["action"].(string))
+	matchpattern.Severity = kcV1.SeverityType(matchPattern["severity"].(int))
+	// matchpattern.Tags = matchPattern["tags"].([]string)
+	matchpattern.Message = matchPattern["message"].(string)
+
 	matchpattern.OwnerOnly = matchPattern["owner_only"].(bool)
 
 	return matchpattern
@@ -100,6 +111,11 @@ func expandFile(file []interface{}) kcV1.FileType {
 		fileType.MatchPaths = expandMatchFilePaths(in["match_paths"].([]interface{}))
 		fileType.MatchDirectories = expandMatchFileDirectories(in["match_directories"].([]interface{}))
 		fileType.MatchPatterns = expandMatchFilePatterns(in["match_patterns"].([]interface{}))
+
+		fileType.Severity = kcV1.SeverityType(in["severity"].(int))
+		fileType.Action = kcV1.ActionType(in["action"].(string))
+		// fileType.Tags = in["tags"].([]string)
+		fileType.Message = in["message"].(string)
 	}
 
 	return fileType
@@ -109,7 +125,11 @@ func expandMatchProcessPath(matchPath map[string]interface{}) kcV1.ProcessPathTy
 	matchpath := kcV1.ProcessPathType{}
 	matchpath.Path = kcV1.MatchPathType(matchPath["path"].(string))
 	matchpath.OwnerOnly = matchPath["owner_only"].(bool)
+	matchpath.Severity = kcV1.SeverityType(matchPath["severity"].(int))
 	matchpath.Action = kcV1.ActionType(matchPath["action"].(string))
+	// matchpath.Tags = matchPath["tags"].([]string)
+	matchpath.Message = matchPath["message"].(string)
+
 	matchpath.FromSource = expandFromSource(matchPath["from_source"].([]interface{}))
 
 	return matchpath
@@ -121,6 +141,10 @@ func expandMatchProcessDir(matchDir map[string]interface{}) kcV1.ProcessDirector
 	matchdir.OwnerOnly = matchDir["owner_only"].(bool)
 	matchdir.Recursive = matchDir["recursive"].(bool)
 	matchdir.Action = kcV1.ActionType(matchDir["action"].(string))
+	matchdir.Severity = kcV1.SeverityType(matchDir["severity"].(int))
+	// matchdir.Tags = matchDir["tags"].([]string)
+	matchdir.Message = matchDir["message"].(string)
+
 	matchdir.FromSource = expandFromSource(matchDir["from_source"].([]interface{}))
 
 	return matchdir
@@ -130,6 +154,10 @@ func expandMatchProcessPattern(matchPattern map[string]interface{}) kcV1.Process
 	matchpattern := kcV1.ProcessPatternType{}
 	matchpattern.Pattern = matchPattern["pattern"].(string)
 	matchpattern.Action = kcV1.ActionType(matchPattern["action"].(string))
+	matchpattern.Severity = kcV1.SeverityType(matchPattern["severity"].(int))
+	// matchpattern.Tags = matchPattern["tags"].([]string)
+	matchpattern.Message = matchPattern["message"].(string)
+
 	matchpattern.OwnerOnly = matchPattern["owner_only"].(bool)
 
 	return matchpattern
@@ -171,6 +199,12 @@ func expandProcess(process []interface{}) kcV1.ProcessType {
 		processType.MatchPaths = expandMatchProcessPaths(in["match_paths"].([]interface{}))
 		processType.MatchDirectories = expandMatchProcessDirectories(in["match_directories"].([]interface{}))
 		processType.MatchPatterns = expandMatchProcessPatterns(in["match_patterns"].([]interface{}))
+
+		processType.Severity = kcV1.SeverityType(in["severity"].(int))
+		processType.Action = kcV1.ActionType(in["action"].(string))
+		// processType.Tags = in["tags"].([]string)
+		processType.Message = in["message"].(string)
+
 	}
 
 	return processType
@@ -180,6 +214,10 @@ func expandCapability(matchCapability map[string]interface{}) kcV1.MatchCapabili
 	matchcapability := kcV1.MatchCapabilitiesType{}
 	matchcapability.Capability = kcV1.MatchCapabilitiesStringType(matchCapability["capabilities"].(string))
 	matchcapability.Action = kcV1.ActionType(matchCapability["action"].(string))
+	matchcapability.Severity = kcV1.SeverityType(matchCapability["severity"].(int))
+	// matchcapability.Tags = matchCapability["tags"].([]string)
+	matchcapability.Message = matchCapability["message"].(string)
+
 	matchcapability.FromSource = expandFromSource(matchCapability["from_source"].([]interface{}))
 
 	return matchcapability
@@ -200,6 +238,11 @@ func expandCapabilities(capabilities []interface{}) kcV1.CapabilitiesType {
 	if len(capabilities) > 0 {
 		in := capabilities[0].(map[string]interface{})
 		capabilitiesType.MatchCapabilities = expandMatchCapabilities(in["match_paths"].([]interface{}))
+		capabilitiesType.Severity = kcV1.SeverityType(in["severity"].(int))
+		capabilitiesType.Action = kcV1.ActionType(in["action"].(string))
+		// capabilitiesType.Tags = in["tags"].([]string)
+		capabilitiesType.Message = in["message"].(string)
+
 	}
 
 	return capabilitiesType
@@ -209,6 +252,10 @@ func expandProtocol(matchProtocol map[string]interface{}) kcV1.MatchNetworkProto
 	matchprotocol := kcV1.MatchNetworkProtocolType{}
 	matchprotocol.Protocol = kcV1.MatchNetworkProtocolStringType(matchProtocol["protocol"].(string))
 	matchprotocol.FromSource = expandFromSource(matchProtocol["from_source"].([]interface{}))
+	matchprotocol.Severity = kcV1.SeverityType(matchProtocol["severity"].(int))
+	matchprotocol.Action = kcV1.ActionType(matchProtocol["action"].(string))
+	// matchprotocol.Tags = matchProtocol["tags"].([]string)
+	matchprotocol.Message = matchProtocol["message"].(string)
 
 	return matchprotocol
 }
@@ -228,6 +275,11 @@ func expandNetwork(network []interface{}) kcV1.NetworkType {
 	if len(network) > 0 {
 		in := network[0].(map[string]interface{})
 		networksType.MatchProtocols = expandMatchProtocols(in["match_protocols"].([]interface{}))
+		networksType.Severity = kcV1.SeverityType(in["severity"].(int))
+		networksType.Action = kcV1.ActionType(in["action"].(string))
+		// networksType.Tags = in["tags"].([]string)
+		networksType.Message = in["message"].(string)
+
 	}
 
 	return networksType
@@ -312,13 +364,14 @@ func expandSpec(d *schema.ResourceData) kcV1.KubeArmorPolicySpec {
 
 	spec.Severity = kcV1.SeverityType(d.Get("severity").(int))
 	spec.Action = kcV1.ActionType(d.Get("action").(string))
+	if tags, ok := d.Get("tags").([]interface{}); ok {
+		for _, t := range tags {
+			spec.Tags = append(spec.Tags, t.(string))
+		}
+	}
+	spec.Message = d.Get("message").(string)
 	spec.Selector = expandSelector(d.Get("selector").([]interface{}))
-
-	// if file, ok := d.GetOk("file"); ok {
-	// 	spec.File = expandFile(file.([]interface{}))
-	// }
 	spec.File = expandFile(d.Get("file").([]interface{}))
-
 	spec.Process = expandProcess(d.Get("process").([]interface{}))
 
 	spec.Capabilities = expandCapabilities(d.Get("capabilities").([]interface{}))
@@ -353,6 +406,9 @@ func flattenMatchFilePaths(in []kcV1.FilePathType) []interface{} {
 		m["read_only"] = filePath.ReadOnly
 		m["owner_only"] = filePath.OwnerOnly
 		m["action"] = filePath.Action
+		m["severity"] = filePath.Severity
+		// m["tags"] = filePath.Tags
+		m["message"] = filePath.Message
 		m["from_source"] = flattenFromSource(filePath.FromSource)
 		matchPaths[i] = m
 	}
@@ -367,6 +423,9 @@ func flattenMatchFileDirectories(in []kcV1.FileDirectoryType) []interface{} {
 		m["read_only"] = filePath.ReadOnly
 		m["owner_only"] = filePath.OwnerOnly
 		m["action"] = filePath.Action
+		m["severity"] = filePath.Severity
+		// m["tags"] = filePath.Tags
+		m["message"] = filePath.Message
 		m["recursive"] = filePath.Recursive
 		m["from_source"] = flattenFromSource(filePath.FromSource)
 		matchPaths[i] = m
@@ -379,8 +438,12 @@ func flattenMatchFilePatterns(in []kcV1.FilePatternType) []interface{} {
 	for i, filePattern := range in {
 		m := make(map[string]interface{})
 		m["pattern"] = filePattern.Pattern
+		m["read_only"] = filePattern.ReadOnly
 		m["owner_only"] = filePattern.OwnerOnly
 		m["action"] = filePattern.Action
+		m["severity"] = filePattern.Severity
+		// m["tags"] = filePattern.Tags
+		m["message"] = filePattern.Message
 		matchPatterns[i] = m
 	}
 	return matchPatterns
@@ -392,6 +455,11 @@ func flattenFile(file kcV1.FileType) []interface{} {
 	fileType["match_directories"] = flattenMatchFileDirectories(file.MatchDirectories)
 	fileType["match_patterns"] = flattenMatchFilePatterns(file.MatchPatterns)
 
+	fileType["action"] = file.Action
+	fileType["severity"] = file.Severity
+	// fileType["tags"] = file.Tags
+	fileType["message"] = file.Message
+
 	return []interface{}{fileType}
 }
 
@@ -402,6 +470,9 @@ func flattenMatchProcessPaths(in []kcV1.ProcessPathType) []interface{} {
 		m["path"] = filePath.Path
 		m["owner_only"] = filePath.OwnerOnly
 		m["action"] = filePath.Action
+		m["severity"] = filePath.Severity
+		// m["tags"] = filePath.Tags
+		m["message"] = filePath.Message
 		m["from_source"] = flattenFromSource(filePath.FromSource)
 		matchPaths[i] = m
 	}
@@ -415,6 +486,9 @@ func flattenMatchProcessDirectories(in []kcV1.ProcessDirectoryType) []interface{
 		m["path"] = filePath.Directory
 		m["owner_only"] = filePath.OwnerOnly
 		m["action"] = filePath.Action
+		m["severity"] = filePath.Severity
+		// m["tags"] = filePath.Tags
+		m["message"] = filePath.Message
 		m["from_source"] = flattenFromSource(filePath.FromSource)
 		matchPaths[i] = m
 	}
@@ -428,6 +502,9 @@ func flattenMatchProcessPatterns(in []kcV1.ProcessPatternType) []interface{} {
 		m["pattern"] = processPattern.Pattern
 		m["owner_only"] = processPattern.OwnerOnly
 		m["action"] = processPattern.Action
+		m["severity"] = processPattern.Severity
+		// m["tags"] = processPattern.Tags
+		m["message"] = processPattern.Message
 		matchPatterns[i] = m
 	}
 	return matchPatterns
@@ -439,6 +516,11 @@ func flattenProcess(process kcV1.ProcessType) []interface{} {
 	processType["match_directories"] = flattenMatchProcessDirectories(process.MatchDirectories)
 	processType["match_patterns"] = flattenMatchProcessPatterns(process.MatchPatterns)
 
+	processType["action"] = process.Action
+	processType["severity"] = process.Severity
+	// processType["tags"] = process.Tags
+	processType["message"] = process.Message
+
 	return []interface{}{processType}
 }
 
@@ -448,6 +530,9 @@ func flattenMatchCapabilities(in []kcV1.MatchCapabilitiesType) []interface{} {
 		m := make(map[string]interface{})
 		m["capabilities"] = match_capabilities.Capability
 		m["action"] = match_capabilities.Action
+		m["severity"] = match_capabilities.Severity
+		// m["tags"] = match_capabilities.Tags
+		m["message"] = match_capabilities.Message
 		m["from_source"] = flattenFromSource(match_capabilities.FromSource)
 		matchCapabilities[i] = m
 	}
@@ -458,6 +543,11 @@ func flattenCapabilities(capabilities kcV1.CapabilitiesType) []interface{} {
 	capabilitiesType := make(map[string]interface{})
 	capabilitiesType["match_capabilities"] = flattenMatchCapabilities(capabilities.MatchCapabilities)
 
+	capabilitiesType["action"] = capabilities.Action
+	capabilitiesType["severity"] = capabilities.Severity
+	// capabilitiesType["tags"] = capabilities.Tags
+	capabilitiesType["message"] = capabilities.Message
+
 	return []interface{}{capabilitiesType}
 }
 
@@ -467,6 +557,11 @@ func flattenMatchProtocol(in []kcV1.MatchNetworkProtocolType) []interface{} {
 		m := make(map[string]interface{})
 		m["protocol"] = match_protocols.Protocol
 		m["from_source"] = flattenFromSource(match_protocols.FromSource)
+		m["action"] = match_protocols.Action
+		m["severity"] = match_protocols.Severity
+		// m["tags"] = match_protocols.Tags
+		m["message"] = match_protocols.Message
+
 		matchProtocol[i] = m
 	}
 	return matchProtocol
@@ -475,6 +570,11 @@ func flattenMatchProtocol(in []kcV1.MatchNetworkProtocolType) []interface{} {
 func flattenNetworks(network kcV1.NetworkType) []interface{} {
 	networkType := make(map[string]interface{})
 	networkType["match_protocols"] = flattenMatchProtocol(network.MatchProtocols)
+
+	networkType["action"] = network.Action
+	networkType["severity"] = network.Severity
+	// networkType["tags"] = network.Tags
+	networkType["message"] = network.Message
 
 	return []interface{}{networkType}
 }
@@ -545,6 +645,8 @@ func flattenPolicy(policy *kcV1.KubeArmorPolicy) []interface{} {
 	pol["namespace"] = policy.ObjectMeta.Namespace
 	pol["action"] = policy.Spec.Action
 	pol["severity"] = policy.Spec.Severity
+	pol["tags"] = policy.Spec.Tags
+	pol["message"] = policy.Spec.Message
 	pol["file"] = flattenFile(policy.Spec.File)
 	pol["process"] = flattenProcess(policy.Spec.Process)
 	pol["capabilities"] = flattenCapabilities(policy.Spec.Capabilities)

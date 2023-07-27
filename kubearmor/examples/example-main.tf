@@ -54,24 +54,25 @@ resource "accuknox_kubearmor_security_policy" "ksp-vault-protect" {
   }
 }
 
-resource "accuknox_kubearmor_security_policy" "ksp-ubuntu-5-net-icmp-audit" {
+resource "accuknox_kubearmor_security_policy" "block-pkg-mgmt-tools-exec" {
   policy= <<-EOT
   apiVersion: security.kubearmor.com/v1
   kind: KubeArmorPolicy
   metadata:
-    name: ksp-ubuntu-5-net-icmp-audit
+    name: block-pkg-mgmt-tools-exec
   spec:
-    severity: 8
     selector:
       matchLabels:
-        container: ubuntu-5
-    network:
-      matchProtocols:
-      - protocol: icmp
+        app: nginx
+    process:
+      matchPaths:
+      - path: /usr/bin/apt
+      - path: /usr/bin/apt-get
     action:
-      Audit  
+      Block
   EOT
 }
+
 
 resource "accuknox_kubearmor_host_security_policy" "hsp-kubearmor-dev-proc-path-block" {
   policy= <<-EOT
@@ -142,7 +143,7 @@ data "accuknox_kubearmor_configuration" "data_cm" {
 }
 
 output "data_cm" {
-  value = data.kubearmor_configuration.data_cm.data
+  value = data.accuknox_kubearmor_configuration.data_cm.data
 }
 
 data "accuknox_kubearmor_host_security_policy" "host-policy" {
@@ -150,19 +151,19 @@ data "accuknox_kubearmor_host_security_policy" "host-policy" {
 }
 
 output "host-policy" {
-  value = data.kubearmor_host_security_policy.host-policy.policy
+  value = data.accuknox_kubearmor_host_security_policy.host-policy.policy
 }
 
 data "accuknox_kubearmor_installed_version" "installed_version" {}
 
 output "installed_version" {
-  value = data.kubearmor_installed_version.installed_version.version
+  value = data.accuknox_kubearmor_installed_version.installed_version.version
 }
 
 data "accuknox_kubearmor_node" "k_node" {}
 
 output "k_node" {
-  value = data.kubearmor_node.k_node.node_data
+  value = data.accuknox_kubearmor_node.k_node.node_data
 }
 
 data "accuknox_kubearmor_namespace_posture" "ns_ps" {
@@ -170,7 +171,7 @@ data "accuknox_kubearmor_namespace_posture" "ns_ps" {
 }
 
 output "ns_ps" {
-  value = data.kubearmor_namespace_posture.ns_ps.annotation
+  value = data.accuknox_kubearmor_namespace_posture.ns_ps.annotation
 }
 
 data "accuknox_kubearmor_namespace_visibility" "ns_vs" {
@@ -178,7 +179,7 @@ data "accuknox_kubearmor_namespace_visibility" "ns_vs" {
 }
 
 output "ns_vs" {
-  value = data.kubearmor_namespace_visibility.ns_vs.visibility
+  value = data.accuknox_kubearmor_namespace_visibility.ns_vs.visibility
 }
 
 
@@ -187,12 +188,12 @@ data "accuknox_kubearmor_security_policy" "pkg-mgmt" {
   namespace="default"
 }
 
-output "sp" {
-  value = data.kubearmor_security_policy.pkg-mgmt.policy
+output "pkg-mgmt" {
+  value = data.accuknox_kubearmor_security_policy.pkg-mgmt.policy
 }
 
 data "accuknox_kubearmor_stable_version" "stable_version" {}
 
 output "stable_version" {
-  value = data.kubearmor_stable_version.stable_version.version
+  value = data.accuknox_kubearmor_stable_version.stable_version.version
 }

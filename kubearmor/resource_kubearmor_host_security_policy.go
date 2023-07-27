@@ -40,6 +40,14 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			// "tags": {
+			// 	Type:     schema.TypeList,
+			// 	Optional: true,
+			// },
+			"message": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"node_selector": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -80,7 +88,19 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 										Type:     schema.TypeBool,
 										Optional: true,
 									},
+									"severity": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
 									"action": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									// "tags": {
+									// 	Type:     schema.TypeList,
+									// 	Optional: true,
+									// },
+									"message": {
 										Type:     schema.TypeString,
 										Optional: true,
 									},
@@ -116,7 +136,19 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 										Type:     schema.TypeBool,
 										Optional: true,
 									},
+									"severity": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
 									"action": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									// "tags": {
+									// 	Type:     schema.TypeList,
+									// 	Optional: true,
+									// },
+									"message": {
 										Type:     schema.TypeString,
 										Optional: true,
 									},
@@ -152,12 +184,40 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 										Type:     schema.TypeBool,
 										Optional: true,
 									},
+									"severity": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
 									"action": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									// "tags": {
+									// 	Type:     schema.TypeList,
+									// 	Optional: true,
+									// },
+									"message": {
 										Type:     schema.TypeString,
 										Optional: true,
 									},
 								},
 							},
+						},
+						"severity": {
+							Type:     schema.TypeInt,
+							Optional: true,
+						},
+						"action": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						// "tags": {
+						// 	Type:     schema.TypeList,
+						// 	Optional: true,
+						// },
+						"message": {
+							Type:     schema.TypeString,
+							Optional: true,
 						},
 					},
 				},
@@ -184,7 +244,19 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 										Type:     schema.TypeBool,
 										Optional: true,
 									},
+									"severity": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
 									"action": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									// "tags": {
+									// 	Type:     schema.TypeList,
+									// 	Optional: true,
+									// },
+									"message": {
 										Type:     schema.TypeString,
 										Optional: true,
 									},
@@ -216,7 +288,19 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 										Type:     schema.TypeBool,
 										Optional: true,
 									},
+									"severity": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
 									"action": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									// "tags": {
+									// 	Type:     schema.TypeList,
+									// 	Optional: true,
+									// },
+									"message": {
 										Type:     schema.TypeString,
 										Optional: true,
 									},
@@ -248,12 +332,40 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 										Type:     schema.TypeBool,
 										Optional: true,
 									},
+									"severity": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
 									"action": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									// "tags": {
+									// 	Type:     schema.TypeList,
+									// 	Optional: true,
+									// },
+									"message": {
 										Type:     schema.TypeString,
 										Optional: true,
 									},
 								},
 							},
+						},
+						"severity": {
+							Type:     schema.TypeInt,
+							Optional: true,
+						},
+						"action": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						// "tags": {
+						// 	Type:     schema.TypeList,
+						// 	Optional: true,
+						// },
+						"message": {
+							Type:     schema.TypeString,
+							Optional: true,
 						},
 					},
 				},
@@ -272,7 +384,19 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 										Type:     schema.TypeString,
 										Required: true,
 									},
+									"severity": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
 									"action": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									// "tags": {
+									// 	Type:     schema.TypeList,
+									// 	Optional: true,
+									// },
+									"message": {
 										Type:     schema.TypeString,
 										Optional: true,
 									},
@@ -291,6 +415,22 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 								},
 							},
 						},
+						"severity": {
+							Type:     schema.TypeInt,
+							Optional: true,
+						},
+						"action": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						// "tags": {
+						// 	Type:     schema.TypeList,
+						// 	Optional: true,
+						// },
+						"message": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
 					},
 				},
 			},
@@ -308,6 +448,22 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 										Type:     schema.TypeString,
 										Required: true,
 									},
+									"severity": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
+									"action": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									// "tags": {
+									// 	Type:     schema.TypeList,
+									// 	Optional: true,
+									// },
+									"message": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
 									"from_source": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -322,6 +478,22 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 									},
 								},
 							},
+						},
+						"severity": {
+							Type:     schema.TypeInt,
+							Optional: true,
+						},
+						"action": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						// "tags": {
+						// 	Type:     schema.TypeList,
+						// 	Optional: true,
+						// },
+						"message": {
+							Type:     schema.TypeString,
+							Optional: true,
 						},
 					},
 				},

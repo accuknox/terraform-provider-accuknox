@@ -43,10 +43,17 @@ func dataSourceKubearmorSecurityPolicy() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						// "tags": {
+						// 	Type:     schema.TypeList,
+						// 	Computed: true,
+						// },
+						"message": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"selector": {
 							Type:     schema.TypeList,
 							Computed: true,
-
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"match_labels": {
@@ -59,7 +66,6 @@ func dataSourceKubearmorSecurityPolicy() *schema.Resource {
 						"file": {
 							Type:     schema.TypeList,
 							Computed: true,
-
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"match_directories": {
@@ -83,7 +89,19 @@ func dataSourceKubearmorSecurityPolicy() *schema.Resource {
 													Type:     schema.TypeBool,
 													Computed: true,
 												},
+												"severity": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
 												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												// "tags": {
+												// 	Type:     schema.TypeList,
+												// 	Computed: true,
+												// },
+												"message": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -119,7 +137,19 @@ func dataSourceKubearmorSecurityPolicy() *schema.Resource {
 													Type:     schema.TypeBool,
 													Computed: true,
 												},
+												"severity": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
 												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												// "tags": {
+												// 	Type:     schema.TypeList,
+												// 	Computed: true,
+												// },
+												"message": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -155,12 +185,40 @@ func dataSourceKubearmorSecurityPolicy() *schema.Resource {
 													Type:     schema.TypeBool,
 													Computed: true,
 												},
+												"severity": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
 												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												// "tags": {
+												// 	Type:     schema.TypeList,
+												// 	Computed: true,
+												// },
+												"message": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
 											},
 										},
+									},
+									"severity": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"action": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									// "tags": {
+									// 	Type:     schema.TypeList,
+									// 	Computed: true,
+									// },
+									"message": {
+										Type:     schema.TypeString,
+										Computed: true,
 									},
 								},
 							},
@@ -187,7 +245,19 @@ func dataSourceKubearmorSecurityPolicy() *schema.Resource {
 													Type:     schema.TypeBool,
 													Computed: true,
 												},
+												"severity": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
 												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												// "tags": {
+												// 	Type:     schema.TypeList,
+												// 	Computed: true,
+												// },
+												"message": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -219,7 +289,19 @@ func dataSourceKubearmorSecurityPolicy() *schema.Resource {
 													Type:     schema.TypeBool,
 													Computed: true,
 												},
+												"severity": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
 												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												// "tags": {
+												// 	Type:     schema.TypeList,
+												// 	Computed: true,
+												// },
+												"message": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -251,12 +333,40 @@ func dataSourceKubearmorSecurityPolicy() *schema.Resource {
 													Type:     schema.TypeBool,
 													Computed: true,
 												},
+												"severity": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
 												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												// "tags": {
+												// 	Type:     schema.TypeList,
+												// 	Computed: true,
+												// },
+												"message": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
 											},
 										},
+									},
+									"severity": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"action": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									// "tags": {
+									// 	Type:     schema.TypeList,
+									// 	Computed: true,
+									// },
+									"message": {
+										Type:     schema.TypeString,
+										Computed: true,
 									},
 								},
 							},
@@ -275,7 +385,19 @@ func dataSourceKubearmorSecurityPolicy() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"severity": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
 												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												// "tags": {
+												// 	Type:     schema.TypeList,
+												// 	Computed: true,
+												// },
+												"message": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -294,6 +416,22 @@ func dataSourceKubearmorSecurityPolicy() *schema.Resource {
 											},
 										},
 									},
+									"severity": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"action": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									// "tags": {
+									// 	Type:     schema.TypeList,
+									// 	Computed: true,
+									// },
+									"message": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
@@ -311,6 +449,22 @@ func dataSourceKubearmorSecurityPolicy() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"severity": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												// "tags": {
+												// 	Type:     schema.TypeList,
+												// 	Computed: true,
+												// },
+												"message": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"from_source": {
 													Type:     schema.TypeList,
 													Computed: true,
@@ -325,6 +479,22 @@ func dataSourceKubearmorSecurityPolicy() *schema.Resource {
 												},
 											},
 										},
+									},
+									"severity": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"action": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									// "tags": {
+									// 	Type:     schema.TypeList,
+									// 	Computed: true,
+									// },
+									"message": {
+										Type:     schema.TypeString,
+										Computed: true,
 									},
 								},
 							},

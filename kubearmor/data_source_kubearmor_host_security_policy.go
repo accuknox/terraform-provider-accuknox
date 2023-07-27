@@ -39,10 +39,17 @@ func dataSourceKubearmorHostSecurityPolicy() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"tags": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"message": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"node_selector": {
 							Type:     schema.TypeList,
 							Computed: true,
-
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"match_labels": {
@@ -55,7 +62,6 @@ func dataSourceKubearmorHostSecurityPolicy() *schema.Resource {
 						"file": {
 							Type:     schema.TypeList,
 							Computed: true,
-
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"match_directories": {
@@ -79,7 +85,19 @@ func dataSourceKubearmorHostSecurityPolicy() *schema.Resource {
 													Type:     schema.TypeBool,
 													Computed: true,
 												},
+												"severity": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
 												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												// "tags": {
+												// 	Type:     schema.TypeList,
+												// 	Computed: true,
+												// },
+												"message": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -115,7 +133,19 @@ func dataSourceKubearmorHostSecurityPolicy() *schema.Resource {
 													Type:     schema.TypeBool,
 													Computed: true,
 												},
+												"severity": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
 												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												// "tags": {
+												// 	Type:     schema.TypeList,
+												// 	Computed: true,
+												// },
+												"message": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -151,12 +181,40 @@ func dataSourceKubearmorHostSecurityPolicy() *schema.Resource {
 													Type:     schema.TypeBool,
 													Computed: true,
 												},
+												"severity": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
 												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												// "tags": {
+												// 	Type:     schema.TypeList,
+												// 	Computed: true,
+												// },
+												"message": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
 											},
 										},
+									},
+									"severity": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"action": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									// "tags": {
+									// 	Type:     schema.TypeString,
+									// 	Computed: true,
+									// },
+									"message": {
+										Type:     schema.TypeString,
+										Computed: true,
 									},
 								},
 							},
@@ -183,7 +241,19 @@ func dataSourceKubearmorHostSecurityPolicy() *schema.Resource {
 													Type:     schema.TypeBool,
 													Computed: true,
 												},
+												"severity": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
 												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												// "tags": {
+												// 	Type:     schema.TypeList,
+												// 	Computed: true,
+												// },
+												"message": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -215,7 +285,19 @@ func dataSourceKubearmorHostSecurityPolicy() *schema.Resource {
 													Type:     schema.TypeBool,
 													Computed: true,
 												},
+												"severity": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
 												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												// "tags": {
+												// 	Type:     schema.TypeList,
+												// 	Computed: true,
+												// },
+												"message": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -247,74 +329,146 @@ func dataSourceKubearmorHostSecurityPolicy() *schema.Resource {
 													Type:     schema.TypeBool,
 													Computed: true,
 												},
+												"severity": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
 												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												// "tags": {
+												// 	Type:     schema.TypeList,
+												// 	Computed: true,
+												// },
+												"message": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
 											},
 										},
 									},
+									"severity": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"action": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									// "tags": {
+									// 	Type:     schema.TypeList,
+									// 	Computed: true,
+									// },
+									"message": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
 						"capabilities": {
 							Type:     schema.TypeList,
-							Optional: true,
+							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"match_capabilities": {
 										Type:     schema.TypeList,
-										Optional: true,
+										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												"capabilities": {
 													Type:     schema.TypeString,
-													Required: true,
+													Computed: true,
+												},
+												"severity": {
+													Type:     schema.TypeInt,
+													Computed: true,
 												},
 												"action": {
 													Type:     schema.TypeString,
-													Optional: true,
+													Computed: true,
+												},
+												// "tags": {
+												// 	Type:     schema.TypeList,
+												// 	Computed: true,
+												// },
+												"message": {
+													Type:     schema.TypeString,
+													Computed: true,
 												},
 												"from_source": {
 													Type:     schema.TypeList,
-													Optional: true,
+													Computed: true,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															"path": {
 																Type:     schema.TypeString,
-																Required: true,
+																Computed: true,
 															},
 														},
 													},
 												},
 											},
 										},
+									},
+									"severity": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"action": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									// "tags": {
+									// 	Type:     schema.TypeList,
+									// 	Computed: true,
+									// },
+									"message": {
+										Type:     schema.TypeString,
+										Computed: true,
 									},
 								},
 							},
 						},
 						"network": {
 							Type:     schema.TypeList,
-							Optional: true,
+							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"match_protocols": {
 										Type:     schema.TypeList,
-										Optional: true,
+										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												"protocol": {
 													Type:     schema.TypeString,
-													Required: true,
+													Computed: true,
+												},
+												"severity": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												// "tags": {
+												// 	Type:     schema.TypeList,
+												// 	Computed: true,
+												// },
+												"message": {
+													Type:     schema.TypeString,
+													Computed: true,
 												},
 												"from_source": {
 													Type:     schema.TypeList,
-													Optional: true,
+													Computed: true,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															"path": {
 																Type:     schema.TypeString,
-																Required: true,
+																Computed: true,
 															},
 														},
 													},
@@ -322,9 +476,105 @@ func dataSourceKubearmorHostSecurityPolicy() *schema.Resource {
 											},
 										},
 									},
+									"severity": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"action": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									// "tags": {
+									// 	Type:     schema.TypeList,
+									// 	Computed: true,
+									// },
+									"message": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
+						// "syscalls": {
+						// 	Type:     schema.TypeList,
+						// 	Computed: true,
+						// 	Elem: &schema.Resource{
+						// 		Schema: map[string]*schema.Schema{
+						// 			"match_syscalls": {
+						// 				Type:     schema.TypeList,
+						// 				Computed: true,
+						// 				Elem: &schema.Resource{
+						// 					Schema: map[string]*schema.Schema{
+						// 						"syscall": {
+						// 							Type:     schema.TypeList,
+						// 							Computed: true,
+						// 						},
+						// 						"from_source": {
+						// 							Type:     schema.TypeList,
+						// 							Computed: true,
+						// 							Elem: &schema.Resource{
+						// 								Schema: map[string]*schema.Schema{
+						// 									"path": {
+						// 										Type:     schema.TypeString,
+						// 										Computed: true,
+						// 									},
+						// 									"dir": {
+						// 										Type:     schema.TypeString,
+						// 										Computed: true,
+						// 									},
+						// 									"recursive": {
+						// 										Type:     schema.TypeString,
+						// 										Computed: true,
+						// 									},
+						// 								},
+						// 							},
+						// 						},
+						// 					},
+						// 				},
+						// 			},
+						// 			"match_paths": {
+						// 				Type:     schema.TypeList,
+						// 				Computed: true,
+						// 				Elem: &schema.Resource{
+						// 					Schema: map[string]*schema.Schema{
+						// 						"path": {
+						// 							Type:     schema.TypeString,
+						// 							Computed: true,
+						// 						},
+						// 						"recursive": {
+						// 							Type:     schema.TypeString,
+						// 							Computed: true,
+						// 						},
+						// 						"syscall": {
+						// 							Type:     schema.TypeList,
+						// 							Computed: true,
+						// 						},
+						// 						"from_source": {
+						// 							Type:     schema.TypeList,
+						// 							Computed: true,
+						// 							Elem: &schema.Resource{
+						// 								Schema: map[string]*schema.Schema{
+						// 									"path": {
+						// 										Type:     schema.TypeString,
+						// 										Computed: true,
+						// 									},
+						// 									"dir": {
+						// 										Type:     schema.TypeString,
+						// 										Computed: true,
+						// 									},
+						// 									"recursive": {
+						// 										Type:     schema.TypeString,
+						// 										Computed: true,
+						// 									},
+						// 								},
+						// 							},
+						// 						},
+						// 					},
+						// 				},
+						// 			},
+						// 		},
+						// 	},
+						// },
 					},
 				},
 			},
