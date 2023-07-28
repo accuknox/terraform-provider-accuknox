@@ -40,10 +40,13 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			// "tags": {
-			// 	Type:     schema.TypeList,
-			// 	Optional: true,
-			// },
+			"tags": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"message": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -96,10 +99,13 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 									},
-									// "tags": {
-									// 	Type:     schema.TypeList,
-									// 	Optional: true,
-									// },
+									"tags": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"message": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -144,10 +150,13 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 									},
-									// "tags": {
-									// 	Type:     schema.TypeList,
-									// 	Optional: true,
-									// },
+									"tags": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"message": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -192,10 +201,13 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 									},
-									// "tags": {
-									// 	Type:     schema.TypeList,
-									// 	Optional: true,
-									// },
+									"tags": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"message": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -211,10 +223,13 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 						},
-						// "tags": {
-						// 	Type:     schema.TypeList,
-						// 	Optional: true,
-						// },
+						"tags": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"message": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -252,10 +267,13 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 									},
-									// "tags": {
-									// 	Type:     schema.TypeList,
-									// 	Optional: true,
-									// },
+									"tags": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"message": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -296,10 +314,13 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 									},
-									// "tags": {
-									// 	Type:     schema.TypeList,
-									// 	Optional: true,
-									// },
+									"tags": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"message": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -340,10 +361,13 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 									},
-									// "tags": {
-									// 	Type:     schema.TypeList,
-									// 	Optional: true,
-									// },
+									"tags": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"message": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -359,10 +383,13 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 						},
-						// "tags": {
-						// 	Type:     schema.TypeList,
-						// 	Optional: true,
-						// },
+						"tags": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"message": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -392,10 +419,13 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 									},
-									// "tags": {
-									// 	Type:     schema.TypeList,
-									// 	Optional: true,
-									// },
+									"tags": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"message": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -423,10 +453,13 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 						},
-						// "tags": {
-						// 	Type:     schema.TypeList,
-						// 	Optional: true,
-						// },
+						"tags": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"message": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -456,10 +489,13 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 									},
-									// "tags": {
-									// 	Type:     schema.TypeList,
-									// 	Optional: true,
-									// },
+									"tags": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"message": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -487,10 +523,13 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 						},
-						// "tags": {
-						// 	Type:     schema.TypeList,
-						// 	Optional: true,
-						// },
+						"tags": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"message": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -498,86 +537,107 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 					},
 				},
 			},
-			// "syscalls": {
-			// 	Type:     schema.TypeList,
-			// 	Optional: true,
-			// 	Elem: &schema.Resource{
-			// 		Schema: map[string]*schema.Schema{
-			// 			"match_syscalls": {
-			// 				Type:     schema.TypeList,
-			// 				Optional: true,
-			// 				Elem: &schema.Resource{
-			// 					Schema: map[string]*schema.Schema{
-			// 						"syscall": {
-			// 							Type:     schema.TypeList,
-			// 							Optional: true,
-			// 						},
-			// 						"from_source": {
-			// 							Type:     schema.TypeList,
-			// 							Optional: true,
-			// 							Elem: &schema.Resource{
-			// 								Schema: map[string]*schema.Schema{
-			// 									"path": {
-			// 										Type:     schema.TypeString,
-			// 										Optional: true,
-			// 									},
-			// 									"dir": {
-			// 										Type:     schema.TypeString,
-			// 										Optional: true,
-			// 									},
-			// 									"recursive": {
-			// 										Type:     schema.TypeString,
-			// 										Optional: true,
-			// 									},
-			// 								},
-			// 							},
-			// 						},
-			// 					},
-			// 				},
-			// 			},
-			// 			"match_paths": {
-			// 				Type:     schema.TypeList,
-			// 				Optional: true,
-			// 				Elem: &schema.Resource{
-			// 					Schema: map[string]*schema.Schema{
-			// 						"path": {
-			// 							Type:     schema.TypeString,
-			// 							Required: true,
-			// 						},
-			// 						"recursive": {
-			// 							Type:     schema.TypeString,
-			// 							Optional: true,
-			// 						},
-			// 						"syscall": {
-			// 							Type:     schema.TypeList,
-			// 							Optional: true,
-			// 						},
-			// 						"from_source": {
-			// 							Type:     schema.TypeList,
-			// 							Optional: true,
-			// 							Elem: &schema.Resource{
-			// 								Schema: map[string]*schema.Schema{
-			// 									"path": {
-			// 										Type:     schema.TypeString,
-			// 										Optional: true,
-			// 									},
-			// 									"dir": {
-			// 										Type:     schema.TypeString,
-			// 										Optional: true,
-			// 									},
-			// 									"recursive": {
-			// 										Type:     schema.TypeString,
-			// 										Optional: true,
-			// 									},
-			// 								},
-			// 							},
-			// 						},
-			// 					},
-			// 				},
-			// 			},
-			// 		},
-			// 	},
-			// },
+			"syscalls": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"match_syscalls": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"syscall": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"from_source": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"path": {
+													Type:     schema.TypeString,
+													Optional: true,
+												},
+												"dir": {
+													Type:     schema.TypeString,
+													Optional: true,
+												},
+												"recursive": {
+													Type:     schema.TypeString,
+													Optional: true,
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+						"match_paths": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"path": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"recursive": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									"syscall": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"from_source": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"path": {
+													Type:     schema.TypeString,
+													Optional: true,
+												},
+												"dir": {
+													Type:     schema.TypeString,
+													Optional: true,
+												},
+												"recursive": {
+													Type:     schema.TypeString,
+													Optional: true,
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+						"severity": {
+							Type:     schema.TypeInt,
+							Optional: true,
+						},
+						"tags": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"message": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+					},
+				},
+			},
 			"last_updated": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -648,12 +708,14 @@ func resourceKubearmorHostSecurityPolicyRead(ctx context.Context, d *schema.Reso
 	} else if _, ok := d.GetOk("name"); ok {
 		d.Set("severity", policy.Spec.Severity)
 		d.Set("action", policy.Spec.Action)
+		d.Set("tags", policy.Spec.Tags)
+		d.Set("message", policy.Spec.Message)
 		d.Set("node_selector", flattenHostSelector(policy.Spec.NodeSelector))
 		d.Set("file", flattenFile(policy.Spec.File))
 		d.Set("process", flattenProcess(policy.Spec.Process))
 		d.Set("capabilities", flattenHostCapabilities(policy.Spec.Capabilities))
 		d.Set("network", flattenHostNetworks(policy.Spec.Network))
-		// d.Set("syscalls", flattenSyscalls(policy.Spec.Syscalls))
+		d.Set("syscalls", flattenSyscalls(policy.Spec.Syscalls))
 	}
 	return nil
 }

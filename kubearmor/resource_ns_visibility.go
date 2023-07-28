@@ -120,7 +120,6 @@ func resourceNsVisibiltyUpdate(ctx context.Context, d *schema.ResourceData, meta
 
 	name := d.Get("namespace").(string)
 
-	// check the namespce exists before we try and patch it
 	_, err = client.CoreV1().Namespaces().Get(ctx, name, metav1.GetOptions{})
 	if err != nil {
 		return diag.Errorf("The namespace %q does not exist", d.Id())

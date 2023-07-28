@@ -1,0 +1,7 @@
+terraform.tfplan
+terraform.tfstate
+terraform.tfstate.backup
+./*.tfstate
+.terraform.lock.hcl
+terraform-provider-kubernetes
+.terraform

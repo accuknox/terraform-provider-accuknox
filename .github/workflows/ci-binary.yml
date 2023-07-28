@@ -1,0 +1,60 @@
+name: ci-binary
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs: 
+  build-linux-amd64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-go@v2
+        with:
+          go-version: "v1.20"
+
+      - name: Build binary for linux/amd64
+        run: |
+          GOOS=linux GOARCH=amd64 go build -o ./binary_linux_amd64
+  
+  build-linux-arm64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-go@v2
+        with:
+          go-version: "v1.20"
+
+      - name: Build binary for linux/arm64
+        run: |
+          GOOS=linux GOARCH=arm64 go build -o ./binary_linux_arm64
+
+  build-darwin-amd64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-go@v2
+        with:
+          go-version: "v1.20"
+
+      - name: Build binary for darwin/amd64
+        run: |
+          GOOS=darwin GOARCH=amd64 go build -o ./binary_linux_amd64
+
+  build-darwin-arm64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-go@v2
+        with:
+          go-version: "v1.20"
+
+      - name: Build binary for darwin/arm64
+        run: |
+          GOOS=darwin GOARCH=arm64 go build -o ./binary_linux_arm64

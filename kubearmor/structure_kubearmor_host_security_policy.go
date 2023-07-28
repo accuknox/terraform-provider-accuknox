@@ -15,15 +15,15 @@ func expandHostSelector(selector []interface{}) kcV1.NodeSelectorType {
 }
 
 func expandHostCapability(matchCapability map[string]interface{}) kcV1.MatchHostCapabilitiesType {
-	matchcapability := kcV1.MatchHostCapabilitiesType{}
-	matchcapability.Capability = kcV1.MatchCapabilitiesStringType(matchCapability["capabilities"].(string))
-	matchcapability.Severity = kcV1.SeverityType(matchCapability["severity"].(int))
-	matchcapability.Action = kcV1.ActionType(matchCapability["action"].(string))
-	// matchcapability.Tags = matchCapability["tags"].([]string)
-	matchcapability.Message = matchCapability["message"].(string)
-	matchcapability.FromSource = expandFromSource(matchCapability["from_source"].([]interface{}))
+	matchCapabilityType := kcV1.MatchHostCapabilitiesType{}
+	matchCapabilityType.Capability = kcV1.MatchCapabilitiesStringType(matchCapability["capabilities"].(string))
+	matchCapabilityType.Severity = kcV1.SeverityType(matchCapability["severity"].(int))
+	matchCapabilityType.Action = kcV1.ActionType(matchCapability["action"].(string))
+	matchCapabilityType.Tags = expandTags(matchCapability["tags"].([]interface{}))
+	matchCapabilityType.Message = matchCapability["message"].(string)
+	matchCapabilityType.FromSource = expandFromSource(matchCapability["from_source"].([]interface{}))
 
-	return matchcapability
+	return matchCapabilityType
 }
 
 func expandHostMatchCapabilities(matchCapabilities []interface{}) []kcV1.MatchHostCapabilitiesType {
@@ -43,7 +43,7 @@ func expandHostCapabilities(capabilities []interface{}) kcV1.HostCapabilitiesTyp
 		capabilitiesType.MatchCapabilities = expandHostMatchCapabilities(in["match_paths"].([]interface{}))
 		capabilitiesType.Severity = kcV1.SeverityType(in["severity"].(int))
 		capabilitiesType.Action = kcV1.ActionType(in["action"].(string))
-		// capabilitiesType.Tags = in["tags"].([]string)
+		capabilitiesType.Tags = expandTags(in["tags"].([]interface{}))
 		capabilitiesType.Message = in["message"].(string)
 	}
 
@@ -51,15 +51,15 @@ func expandHostCapabilities(capabilities []interface{}) kcV1.HostCapabilitiesTyp
 }
 
 func expandHostProtocol(matchProtocol map[string]interface{}) kcV1.MatchHostNetworkProtocolType {
-	matchprotocol := kcV1.MatchHostNetworkProtocolType{}
-	matchprotocol.Protocol = kcV1.MatchNetworkProtocolStringType(matchProtocol["protocol"].(string))
-	matchprotocol.Action = kcV1.ActionType(matchProtocol["action"].(string))
-	matchprotocol.Severity = kcV1.SeverityType(matchProtocol["severity"].(int))
-	// matchprotocol.Tags = matchProtocol["tags"].([]string)
-	matchprotocol.Message = matchProtocol["message"].(string)
-	matchprotocol.FromSource = expandFromSource(matchProtocol["from_source"].([]interface{}))
+	matchProtocolType := kcV1.MatchHostNetworkProtocolType{}
+	matchProtocolType.Protocol = kcV1.MatchNetworkProtocolStringType(matchProtocol["protocol"].(string))
+	matchProtocolType.Action = kcV1.ActionType(matchProtocol["action"].(string))
+	matchProtocolType.Severity = kcV1.SeverityType(matchProtocol["severity"].(int))
+	matchProtocolType.Tags = expandTags(matchProtocol["tags"].([]interface{}))
+	matchProtocolType.Message = matchProtocol["message"].(string)
+	matchProtocolType.FromSource = expandFromSource(matchProtocol["from_source"].([]interface{}))
 
-	return matchprotocol
+	return matchProtocolType
 }
 
 func expandHostMatchProtocols(protocol []interface{}) []kcV1.MatchHostNetworkProtocolType {
@@ -79,7 +79,7 @@ func expandHostNetwork(network []interface{}) kcV1.HostNetworkType {
 		networksType.MatchProtocols = expandHostMatchProtocols(in["protocol"].([]interface{}))
 		networksType.Severity = kcV1.SeverityType(in["severity"].(int))
 		networksType.Action = kcV1.ActionType(in["action"].(string))
-		// networksType.Tags = in["tags"].([]string)
+		networksType.Tags = expandTags(in["tags"].([]interface{}))
 		networksType.Message = in["message"].(string)
 	}
 
@@ -91,7 +91,7 @@ func expandHostSpec(d *schema.ResourceData) kcV1.KubeArmorHostPolicySpec {
 
 	spec.Severity = kcV1.SeverityType(d.Get("severity").(int))
 	spec.Action = kcV1.ActionType(d.Get("action").(string))
-	// spec.Tags = d.Get("tags").([]string)
+	spec.Tags = expandTags(d.Get("tags").([]interface{}))
 	spec.Message = d.Get("message").(string)
 	spec.NodeSelector = expandHostSelector(d.Get("node_selector").([]interface{}))
 	spec.File = expandFile(d.Get("file").([]interface{}))
@@ -106,7 +106,7 @@ func expandHostSpec(d *schema.ResourceData) kcV1.KubeArmorHostPolicySpec {
 	spec.Network = kcV1.HostNetworkType{
 		MatchProtocols: append([]kcV1.MatchHostNetworkProtocolType{}, spec.Network.MatchProtocols...),
 	}
-	// spec.Syscalls = expandSyscalls(d.Get("syscalls").([]interface{}))
+	spec.Syscalls = expandSyscalls(d.Get("syscalls").([]interface{}))
 
 	return spec
 }
@@ -117,13 +117,13 @@ func flattenHostPolicy(policy *kcV1.KubeArmorHostPolicy) []interface{} {
 	pol["namespace"] = policy.ObjectMeta.Namespace
 	pol["action"] = policy.Spec.Action
 	pol["severity"] = policy.Spec.Severity
-	// pol["tags"] = policy.Spec.Tags
+	pol["tags"] = policy.Spec.Tags
 	pol["message"] = policy.Spec.Message
 	pol["file"] = flattenFile(policy.Spec.File)
 	pol["process"] = flattenProcess(policy.Spec.Process)
 	pol["capabilities"] = flattenHostCapabilities(policy.Spec.Capabilities)
 	pol["network"] = flattenHostNetworks(policy.Spec.Network)
-	// pol["syscalls"] = flattenSyscalls(policy.Spec.Syscalls)
+	pol["syscalls"] = flattenSyscalls(policy.Spec.Syscalls)
 	pol["node_selector"] = flattenHostSelector(policy.Spec.NodeSelector)
 
 	return []interface{}{pol}
@@ -135,7 +135,7 @@ func flattenHostCapabilities(capabilities kcV1.HostCapabilitiesType) []interface
 
 	capabilitiesType["action"] = capabilities.Action
 	capabilitiesType["severity"] = capabilities.Severity
-	// capabilitiesType["tags"] = capabilities.Tags
+	capabilitiesType["tags"] = capabilities.Tags
 	capabilitiesType["message"] = capabilities.Message
 
 	return []interface{}{capabilitiesType}
@@ -148,7 +148,7 @@ func flattenMatchHostCapabilities(in []kcV1.MatchHostCapabilitiesType) []interfa
 		m["capabilities"] = match_capabilities.Capability
 		m["action"] = match_capabilities.Action
 		m["severity"] = match_capabilities.Severity
-		// m["tags"] = match_capabilities.Tags
+		m["tags"] = match_capabilities.Tags
 		m["message"] = match_capabilities.Message
 		m["from_source"] = flattenFromSource(match_capabilities.FromSource)
 		matchCapabilities[i] = m
@@ -162,7 +162,7 @@ func flattenHostNetworks(network kcV1.HostNetworkType) []interface{} {
 
 	networkType["action"] = network.Action
 	networkType["severity"] = network.Severity
-	// networkType["tags"] = network.Tags
+	networkType["tags"] = network.Tags
 	networkType["message"] = network.Message
 
 	return []interface{}{networkType}
@@ -177,7 +177,7 @@ func flattenMatchHostProtocol(in []kcV1.MatchHostNetworkProtocolType) []interfac
 
 		m["action"] = match_protocols.Action
 		m["severity"] = match_protocols.Severity
-		// m["tags"] = match_protocols.Tags
+		m["tags"] = match_protocols.Tags
 		m["message"] = match_protocols.Message
 
 		matchProtocol[i] = m

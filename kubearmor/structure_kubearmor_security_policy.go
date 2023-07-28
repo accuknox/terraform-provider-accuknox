@@ -16,56 +16,56 @@ func expandfs(fs map[string]interface{}) kcV1.MatchSourceType {
 }
 
 func expandFromSource(fromSource []interface{}) []kcV1.MatchSourceType {
-	fromsource := []kcV1.MatchSourceType{}
+	fromSourceType := []kcV1.MatchSourceType{}
 
 	for _, fs := range fromSource {
-		fromsource = append(fromsource, expandfs(fs.(map[string]interface{})))
+		fromSourceType = append(fromSourceType, expandfs(fs.(map[string]interface{})))
 	}
 
-	return fromsource
+	return fromSourceType
 }
 
 func expandMatchFilePath(matchPath map[string]interface{}) kcV1.FilePathType {
-	matchpath := kcV1.FilePathType{}
-	matchpath.Path = kcV1.MatchPathType(matchPath["path"].(string))
-	matchpath.OwnerOnly = matchPath["owner_only"].(bool)
-	matchpath.ReadOnly = matchPath["read_omly"].(bool)
-	matchpath.Action = kcV1.ActionType(matchPath["action"].(string))
-	matchpath.Severity = kcV1.SeverityType(matchPath["severity"].(int))
-	// matchpath.Tags = matchPath["tags"].([]string)
-	matchpath.Message = matchPath["message"].(string)
-	matchpath.FromSource = expandFromSource(matchPath["from_source"].([]interface{}))
+	matchPathType := kcV1.FilePathType{}
+	matchPathType.Path = kcV1.MatchPathType(matchPath["path"].(string))
+	matchPathType.OwnerOnly = matchPath["owner_only"].(bool)
+	matchPathType.ReadOnly = matchPath["read_omly"].(bool)
+	matchPathType.Action = kcV1.ActionType(matchPath["action"].(string))
+	matchPathType.Severity = kcV1.SeverityType(matchPath["severity"].(int))
+	matchPathType.Tags = expandTags(matchPath["tags"].([]interface{}))
+	matchPathType.Message = matchPath["message"].(string)
+	matchPathType.FromSource = expandFromSource(matchPath["from_source"].([]interface{}))
 
-	return matchpath
+	return matchPathType
 }
 
 func expandMatchFilePaths(matchPaths []interface{}) []kcV1.FilePathType {
 	if len(matchPaths) < 1 {
 		return nil
 	}
-	matchpaths := []kcV1.FilePathType{}
+	matchPathsType := []kcV1.FilePathType{}
 
 	for _, matchPath := range matchPaths {
-		matchpaths = append(matchpaths, expandMatchFilePath(matchPath.(map[string]interface{})))
+		matchPathsType = append(matchPathsType, expandMatchFilePath(matchPath.(map[string]interface{})))
 	}
 
-	return matchpaths
+	return matchPathsType
 }
 
 func expandMatchFileDir(matchDir map[string]interface{}) kcV1.FileDirectoryType {
-	matchdir := kcV1.FileDirectoryType{}
-	matchdir.Directory = kcV1.MatchDirectoryType(matchDir["dir"].(string))
-	matchdir.OwnerOnly = matchDir["owner_only"].(bool)
-	matchdir.ReadOnly = matchDir["read_only"].(bool)
-	matchdir.Recursive = matchDir["recursive"].(bool)
-	matchdir.Action = kcV1.ActionType(matchDir["action"].(string))
-	matchdir.Severity = kcV1.SeverityType(matchDir["severity"].(int))
-	// matchdir.Tags = matchDir["tags"].([]string)
-	matchdir.Message = matchDir["message"].(string)
+	matchDirType := kcV1.FileDirectoryType{}
+	matchDirType.Directory = kcV1.MatchDirectoryType(matchDir["dir"].(string))
+	matchDirType.OwnerOnly = matchDir["owner_only"].(bool)
+	matchDirType.ReadOnly = matchDir["read_only"].(bool)
+	matchDirType.Recursive = matchDir["recursive"].(bool)
+	matchDirType.Action = kcV1.ActionType(matchDir["action"].(string))
+	matchDirType.Severity = kcV1.SeverityType(matchDir["severity"].(int))
+	matchDirType.Tags = expandTags(matchDir["tags"].([]interface{}))
+	matchDirType.Message = matchDir["message"].(string)
 
-	matchdir.FromSource = expandFromSource(matchDir["from_source"].([]interface{}))
+	matchDirType.FromSource = expandFromSource(matchDir["from_source"].([]interface{}))
 
-	return matchdir
+	return matchDirType
 }
 
 func expandMatchFileDirectories(matchDirectories []interface{}) []kcV1.FileDirectoryType {
@@ -82,16 +82,16 @@ func expandMatchFileDirectories(matchDirectories []interface{}) []kcV1.FileDirec
 }
 
 func expandMatchFilePattern(matchPattern map[string]interface{}) kcV1.FilePatternType {
-	matchpattern := kcV1.FilePatternType{}
-	matchpattern.Pattern = matchPattern["pattern"].(string)
-	matchpattern.Action = kcV1.ActionType(matchPattern["action"].(string))
-	matchpattern.Severity = kcV1.SeverityType(matchPattern["severity"].(int))
-	// matchpattern.Tags = matchPattern["tags"].([]string)
-	matchpattern.Message = matchPattern["message"].(string)
+	matchPatternType := kcV1.FilePatternType{}
+	matchPatternType.Pattern = matchPattern["pattern"].(string)
+	matchPatternType.Action = kcV1.ActionType(matchPattern["action"].(string))
+	matchPatternType.Severity = kcV1.SeverityType(matchPattern["severity"].(int))
+	matchPatternType.Tags = expandTags(matchPattern["tags"].([]interface{}))
+	matchPatternType.Message = matchPattern["message"].(string)
 
-	matchpattern.OwnerOnly = matchPattern["owner_only"].(bool)
+	matchPatternType.OwnerOnly = matchPattern["owner_only"].(bool)
 
-	return matchpattern
+	return matchPatternType
 }
 
 func expandMatchFilePatterns(matchPatterns []interface{}) []kcV1.FilePatternType {
@@ -114,7 +114,7 @@ func expandFile(file []interface{}) kcV1.FileType {
 
 		fileType.Severity = kcV1.SeverityType(in["severity"].(int))
 		fileType.Action = kcV1.ActionType(in["action"].(string))
-		// fileType.Tags = in["tags"].([]string)
+		fileType.Tags = expandTags(in["tags"].([]interface{}))
 		fileType.Message = in["message"].(string)
 	}
 
@@ -122,45 +122,45 @@ func expandFile(file []interface{}) kcV1.FileType {
 }
 
 func expandMatchProcessPath(matchPath map[string]interface{}) kcV1.ProcessPathType {
-	matchpath := kcV1.ProcessPathType{}
-	matchpath.Path = kcV1.MatchPathType(matchPath["path"].(string))
-	matchpath.OwnerOnly = matchPath["owner_only"].(bool)
-	matchpath.Severity = kcV1.SeverityType(matchPath["severity"].(int))
-	matchpath.Action = kcV1.ActionType(matchPath["action"].(string))
-	// matchpath.Tags = matchPath["tags"].([]string)
-	matchpath.Message = matchPath["message"].(string)
+	matchPathType := kcV1.ProcessPathType{}
+	matchPathType.Path = kcV1.MatchPathType(matchPath["path"].(string))
+	matchPathType.OwnerOnly = matchPath["owner_only"].(bool)
+	matchPathType.Severity = kcV1.SeverityType(matchPath["severity"].(int))
+	matchPathType.Action = kcV1.ActionType(matchPath["action"].(string))
+	matchPathType.Tags = expandTags(matchPath["tags"].([]interface{}))
+	matchPathType.Message = matchPath["message"].(string)
 
-	matchpath.FromSource = expandFromSource(matchPath["from_source"].([]interface{}))
+	matchPathType.FromSource = expandFromSource(matchPath["from_source"].([]interface{}))
 
-	return matchpath
+	return matchPathType
 }
 
 func expandMatchProcessDir(matchDir map[string]interface{}) kcV1.ProcessDirectoryType {
-	matchdir := kcV1.ProcessDirectoryType{}
-	matchdir.Directory = kcV1.MatchDirectoryType(matchDir["dir"].(string))
-	matchdir.OwnerOnly = matchDir["owner_only"].(bool)
-	matchdir.Recursive = matchDir["recursive"].(bool)
-	matchdir.Action = kcV1.ActionType(matchDir["action"].(string))
-	matchdir.Severity = kcV1.SeverityType(matchDir["severity"].(int))
-	// matchdir.Tags = matchDir["tags"].([]string)
-	matchdir.Message = matchDir["message"].(string)
+	matchDirType := kcV1.ProcessDirectoryType{}
+	matchDirType.Directory = kcV1.MatchDirectoryType(matchDir["dir"].(string))
+	matchDirType.OwnerOnly = matchDir["owner_only"].(bool)
+	matchDirType.Recursive = matchDir["recursive"].(bool)
+	matchDirType.Action = kcV1.ActionType(matchDir["action"].(string))
+	matchDirType.Severity = kcV1.SeverityType(matchDir["severity"].(int))
+	matchDirType.Tags = expandTags(matchDir["tags"].([]interface{}))
+	matchDirType.Message = matchDir["message"].(string)
 
-	matchdir.FromSource = expandFromSource(matchDir["from_source"].([]interface{}))
+	matchDirType.FromSource = expandFromSource(matchDir["from_source"].([]interface{}))
 
-	return matchdir
+	return matchDirType
 }
 
 func expandMatchProcessPattern(matchPattern map[string]interface{}) kcV1.ProcessPatternType {
-	matchpattern := kcV1.ProcessPatternType{}
-	matchpattern.Pattern = matchPattern["pattern"].(string)
-	matchpattern.Action = kcV1.ActionType(matchPattern["action"].(string))
-	matchpattern.Severity = kcV1.SeverityType(matchPattern["severity"].(int))
-	// matchpattern.Tags = matchPattern["tags"].([]string)
-	matchpattern.Message = matchPattern["message"].(string)
+	matchPatternType := kcV1.ProcessPatternType{}
+	matchPatternType.Pattern = matchPattern["pattern"].(string)
+	matchPatternType.Action = kcV1.ActionType(matchPattern["action"].(string))
+	matchPatternType.Severity = kcV1.SeverityType(matchPattern["severity"].(int))
+	matchPatternType.Tags = expandTags(matchPattern["tags"].([]interface{}))
+	matchPatternType.Message = matchPattern["message"].(string)
 
-	matchpattern.OwnerOnly = matchPattern["owner_only"].(bool)
+	matchPatternType.OwnerOnly = matchPattern["owner_only"].(bool)
 
-	return matchpattern
+	return matchPatternType
 }
 
 func expandMatchProcessPatterns(matchPatterns []interface{}) []kcV1.ProcessPatternType {
@@ -202,7 +202,7 @@ func expandProcess(process []interface{}) kcV1.ProcessType {
 
 		processType.Severity = kcV1.SeverityType(in["severity"].(int))
 		processType.Action = kcV1.ActionType(in["action"].(string))
-		// processType.Tags = in["tags"].([]string)
+		processType.Tags = expandTags(in["tags"].([]interface{}))
 		processType.Message = in["message"].(string)
 
 	}
@@ -211,16 +211,16 @@ func expandProcess(process []interface{}) kcV1.ProcessType {
 }
 
 func expandCapability(matchCapability map[string]interface{}) kcV1.MatchCapabilitiesType {
-	matchcapability := kcV1.MatchCapabilitiesType{}
-	matchcapability.Capability = kcV1.MatchCapabilitiesStringType(matchCapability["capabilities"].(string))
-	matchcapability.Action = kcV1.ActionType(matchCapability["action"].(string))
-	matchcapability.Severity = kcV1.SeverityType(matchCapability["severity"].(int))
-	// matchcapability.Tags = matchCapability["tags"].([]string)
-	matchcapability.Message = matchCapability["message"].(string)
+	matchCapabilityType := kcV1.MatchCapabilitiesType{}
+	matchCapabilityType.Capability = kcV1.MatchCapabilitiesStringType(matchCapability["capabilities"].(string))
+	matchCapabilityType.Action = kcV1.ActionType(matchCapability["action"].(string))
+	matchCapabilityType.Severity = kcV1.SeverityType(matchCapability["severity"].(int))
+	matchCapabilityType.Tags = expandTags(matchCapability["tags"].([]interface{}))
+	matchCapabilityType.Message = matchCapability["message"].(string)
 
-	matchcapability.FromSource = expandFromSource(matchCapability["from_source"].([]interface{}))
+	matchCapabilityType.FromSource = expandFromSource(matchCapability["from_source"].([]interface{}))
 
-	return matchcapability
+	return matchCapabilityType
 }
 
 func expandMatchCapabilities(matchCapabilities []interface{}) []kcV1.MatchCapabilitiesType {
@@ -240,7 +240,7 @@ func expandCapabilities(capabilities []interface{}) kcV1.CapabilitiesType {
 		capabilitiesType.MatchCapabilities = expandMatchCapabilities(in["match_paths"].([]interface{}))
 		capabilitiesType.Severity = kcV1.SeverityType(in["severity"].(int))
 		capabilitiesType.Action = kcV1.ActionType(in["action"].(string))
-		// capabilitiesType.Tags = in["tags"].([]string)
+		capabilitiesType.Tags = expandTags(in["tags"].([]interface{}))
 		capabilitiesType.Message = in["message"].(string)
 
 	}
@@ -249,15 +249,15 @@ func expandCapabilities(capabilities []interface{}) kcV1.CapabilitiesType {
 }
 
 func expandProtocol(matchProtocol map[string]interface{}) kcV1.MatchNetworkProtocolType {
-	matchprotocol := kcV1.MatchNetworkProtocolType{}
-	matchprotocol.Protocol = kcV1.MatchNetworkProtocolStringType(matchProtocol["protocol"].(string))
-	matchprotocol.FromSource = expandFromSource(matchProtocol["from_source"].([]interface{}))
-	matchprotocol.Severity = kcV1.SeverityType(matchProtocol["severity"].(int))
-	matchprotocol.Action = kcV1.ActionType(matchProtocol["action"].(string))
-	// matchprotocol.Tags = matchProtocol["tags"].([]string)
-	matchprotocol.Message = matchProtocol["message"].(string)
+	matchProtocolType := kcV1.MatchNetworkProtocolType{}
+	matchProtocolType.Protocol = kcV1.MatchNetworkProtocolStringType(matchProtocol["protocol"].(string))
+	matchProtocolType.FromSource = expandFromSource(matchProtocol["from_source"].([]interface{}))
+	matchProtocolType.Severity = kcV1.SeverityType(matchProtocol["severity"].(int))
+	matchProtocolType.Action = kcV1.ActionType(matchProtocol["action"].(string))
+	matchProtocolType.Tags = expandTags(matchProtocol["tags"].([]interface{}))
+	matchProtocolType.Message = matchProtocol["message"].(string)
 
-	return matchprotocol
+	return matchProtocolType
 }
 
 func expandMatchProtocols(protocol []interface{}) []kcV1.MatchNetworkProtocolType {
@@ -277,7 +277,7 @@ func expandNetwork(network []interface{}) kcV1.NetworkType {
 		networksType.MatchProtocols = expandMatchProtocols(in["match_protocols"].([]interface{}))
 		networksType.Severity = kcV1.SeverityType(in["severity"].(int))
 		networksType.Action = kcV1.ActionType(in["action"].(string))
-		// networksType.Tags = in["tags"].([]string)
+		networksType.Tags = expandTags(in["tags"].([]interface{}))
 		networksType.Message = in["message"].(string)
 
 	}
@@ -285,62 +285,83 @@ func expandNetwork(network []interface{}) kcV1.NetworkType {
 	return networksType
 }
 
-// func expandsysfs(fs map[string]interface{}) kcV1.SyscallFromSourceType {
-// 	mst := kcV1.SyscallFromSourceType{}
-// 	mst.Path = kcV1.MatchPathType(fs["path"].(string))
-// 	mst.Dir = fs["dir"].(string)
-// 	mst.Recursive = fs["recursive"].(bool)
-// 	return mst
-// }
+func expandsysfs(fs map[string]interface{}) kcV1.SyscallFromSourceType {
+	mst := kcV1.SyscallFromSourceType{}
+	mst.Path = kcV1.MatchPathType(fs["path"].(string))
+	mst.Dir = fs["dir"].(string)
+	mst.Recursive = fs["recursive"].(bool)
+	return mst
+}
 
-// func expandSyscallFromSource(fromSource []interface{}) []kcV1.SyscallFromSourceType {
-// 	fromsource := []kcV1.SyscallFromSourceType{}
+func expandSyscallFromSource(fromSource []interface{}) []kcV1.SyscallFromSourceType {
+	fromSourceType := []kcV1.SyscallFromSourceType{}
 
-// 	for _, fs := range fromSource {
-// 		fromsource = append(fromsource, expandsysfs(fs.(map[string]interface{})))
-// 	}
+	for _, fs := range fromSource {
+		fromSourceType = append(fromSourceType, expandsysfs(fs.(map[string]interface{})))
+	}
 
-// 	return fromsource
-// }
+	return fromSourceType
+}
+func expandsyscall(in []interface{}) []kcV1.Syscall {
+	syscall := make([]kcV1.Syscall, len(in))
+	for i, v := range in {
+		syscall[i] = kcV1.Syscall(v.(string))
+	}
+	return syscall
+}
 
-// func expandMatchSyscall(matchSyscall map[string]interface{}) kcV1.SyscallMatchType {
-// 	matchsyscall := kcV1.SyscallMatchType{}
-// 	// matchsyscall.Syscalls = append(matchsyscall.Syscalls,)
-// 	matchsyscall.FromSource = expandSyscallFromSource(matchSyscall["from_source"].([]interface{}))
-// 	return matchsyscall
-// }
+func expandMatchSyscall(matchSyscall map[string]interface{}) kcV1.SyscallMatchType {
+	matchSyscallType := kcV1.SyscallMatchType{}
+	matchSyscallType.Syscalls = expandsyscall(matchSyscall["syscall"].([]interface{}))
+	matchSyscallType.FromSource = expandSyscallFromSource(matchSyscall["from_source"].([]interface{}))
+	return matchSyscallType
+}
 
-// func expandMatchSyscalls(MatchSyscalls []interface{}) []kcV1.SyscallMatchType {
-// 	matchsyscalls := []kcV1.SyscallMatchType{}
+func expandMatchSyscalls(MatchSyscalls []interface{}) []kcV1.SyscallMatchType {
+	matchsyscalls := []kcV1.SyscallMatchType{}
 
-// 	for _, matchSyscall := range MatchSyscalls {
-// 		matchsyscalls = append(matchsyscalls, expandMatchSyscall(matchSyscall.(map[string]interface{})))
-// 	}
+	for _, matchSyscall := range MatchSyscalls {
+		matchsyscalls = append(matchsyscalls, expandMatchSyscall(matchSyscall.(map[string]interface{})))
+	}
 
-// 	return matchsyscalls
-// }
+	return matchsyscalls
+}
 
-// func expandSyscallsMatchPaths(matchPath map[string]interface{}) kcV1.SyscallMatchPathType {
-// 	matchpath := kcV1.SyscallMatchPathType{}
-// 	matchpath.Path = kcV1.MatchSyscallPathType(matchPath["path"].(string))
-// 	matchpath.Recursive = matchPath["path"].(bool)
-// 	// matchpath.Syscalls = append(matchpath.Syscalls, matchPath["syscall"])
+func expandMatchPath(matchPath map[string]interface{}) kcV1.SyscallMatchPathType {
+	matchPathType := kcV1.SyscallMatchPathType{}
+	matchPathType.Path = kcV1.MatchSyscallPathType(matchPath["path"].(string))
+	matchPathType.Recursive = matchPath["path"].(bool)
+	matchPathType.Syscalls = expandsyscall(matchPath["syscall"].([]interface{}))
 
-// 	matchpath.FromSource = expandSyscallFromSource(matchPath["from_source"].([]interface{}))
+	matchPathType.FromSource = expandSyscallFromSource(matchPath["from_source"].([]interface{}))
 
-// 	return matchpath
-// }
+	return matchPathType
+}
 
-// func expandSyscalls(syscalls []interface{}) kcV1.SyscallsType {
-// 	syscallType := kcV1.SyscallsType{}
-// 	if len(syscalls) > 0 {
-// 		in := syscalls[0].(map[string]interface{})
-// 		syscallType.MatchSyscalls = expandMatchSyscalls(in["match_syscalls"].([]interface{}))
-// 		syscallType.MatchPaths = append(syscallType.MatchPaths, expandSyscallsMatchPaths(in["match_paths"].(map[string]interface{})))
-// 	}
+func expandSyscallsMatchPaths(in []interface{}) []kcV1.SyscallMatchPathType {
+	matchpaths := []kcV1.SyscallMatchPathType{}
 
-// 	return syscallType
-// }
+	for _, matchPaths := range in {
+		matchpaths = append(matchpaths, expandMatchPath(matchPaths.(map[string]interface{})))
+	}
+
+	return matchpaths
+}
+
+func expandSyscalls(syscalls []interface{}) kcV1.SyscallsType {
+	syscallType := kcV1.SyscallsType{}
+	if len(syscalls) > 0 {
+		in := syscalls[0].(map[string]interface{})
+		syscallType.MatchSyscalls = expandMatchSyscalls(in["match_syscalls"].([]interface{}))
+		syscallType.MatchPaths = expandSyscallsMatchPaths(in["match_paths"].([]interface{}))
+
+		syscallType.Message = in["message"].(string)
+		syscallType.Severity = kcV1.SeverityType(in["severity"].(int))
+		syscallType.Tags = expandTags(in["tags"].([]interface{}))
+	}
+
+	return syscallType
+}
 
 func expandSelector(selector []interface{}) kcV1.SelectorType {
 	selectorType := kcV1.SelectorType{}
@@ -359,12 +380,20 @@ func expandStringMap(m map[string]interface{}) map[string]string {
 	return result
 }
 
+func expandTags(in []interface{}) []string {
+	tags := make([]string, len(in))
+	for i, v := range in {
+		tags[i] = v.(string)
+	}
+	return tags
+}
+
 func expandSpec(d *schema.ResourceData) kcV1.KubeArmorPolicySpec {
 	spec := kcV1.KubeArmorPolicySpec{}
 
 	spec.Severity = kcV1.SeverityType(d.Get("severity").(int))
 	spec.Action = kcV1.ActionType(d.Get("action").(string))
-
+	spec.Tags = expandTags(d.Get("tags").([]interface{}))
 	spec.Message = d.Get("message").(string)
 	spec.Selector = expandSelector(d.Get("selector").([]interface{}))
 	spec.File = expandFile(d.Get("file").([]interface{}))
@@ -379,7 +408,7 @@ func expandSpec(d *schema.ResourceData) kcV1.KubeArmorPolicySpec {
 	spec.Network = kcV1.NetworkType{
 		MatchProtocols: append([]kcV1.MatchNetworkProtocolType{}, spec.Network.MatchProtocols...),
 	}
-	// spec.Syscalls = expandSyscalls(d.Get("syscalls").([]interface{}))
+	spec.Syscalls = expandSyscalls(d.Get("syscalls").([]interface{}))
 
 	return spec
 }
@@ -403,7 +432,7 @@ func flattenMatchFilePaths(in []kcV1.FilePathType) []interface{} {
 		m["owner_only"] = filePath.OwnerOnly
 		m["action"] = filePath.Action
 		m["severity"] = filePath.Severity
-		// m["tags"] = filePath.Tags
+		m["tags"] = filePath.Tags
 		m["message"] = filePath.Message
 		m["from_source"] = flattenFromSource(filePath.FromSource)
 		matchPaths[i] = m
@@ -420,7 +449,7 @@ func flattenMatchFileDirectories(in []kcV1.FileDirectoryType) []interface{} {
 		m["owner_only"] = filePath.OwnerOnly
 		m["action"] = filePath.Action
 		m["severity"] = filePath.Severity
-		// m["tags"] = filePath.Tags
+		m["tags"] = filePath.Tags
 		m["message"] = filePath.Message
 		m["recursive"] = filePath.Recursive
 		m["from_source"] = flattenFromSource(filePath.FromSource)
@@ -438,7 +467,7 @@ func flattenMatchFilePatterns(in []kcV1.FilePatternType) []interface{} {
 		m["owner_only"] = filePattern.OwnerOnly
 		m["action"] = filePattern.Action
 		m["severity"] = filePattern.Severity
-		// m["tags"] = filePattern.Tags
+		m["tags"] = filePattern.Tags
 		m["message"] = filePattern.Message
 		matchPatterns[i] = m
 	}
@@ -453,7 +482,7 @@ func flattenFile(file kcV1.FileType) []interface{} {
 
 	fileType["action"] = file.Action
 	fileType["severity"] = file.Severity
-	// fileType["tags"] = file.Tags
+	fileType["tags"] = file.Tags
 	fileType["message"] = file.Message
 
 	return []interface{}{fileType}
@@ -467,7 +496,7 @@ func flattenMatchProcessPaths(in []kcV1.ProcessPathType) []interface{} {
 		m["owner_only"] = filePath.OwnerOnly
 		m["action"] = filePath.Action
 		m["severity"] = filePath.Severity
-		// m["tags"] = filePath.Tags
+		m["tags"] = filePath.Tags
 		m["message"] = filePath.Message
 		m["from_source"] = flattenFromSource(filePath.FromSource)
 		matchPaths[i] = m
@@ -483,7 +512,7 @@ func flattenMatchProcessDirectories(in []kcV1.ProcessDirectoryType) []interface{
 		m["owner_only"] = filePath.OwnerOnly
 		m["action"] = filePath.Action
 		m["severity"] = filePath.Severity
-		// m["tags"] = filePath.Tags
+		m["tags"] = filePath.Tags
 		m["message"] = filePath.Message
 		m["from_source"] = flattenFromSource(filePath.FromSource)
 		matchPaths[i] = m
@@ -499,7 +528,7 @@ func flattenMatchProcessPatterns(in []kcV1.ProcessPatternType) []interface{} {
 		m["owner_only"] = processPattern.OwnerOnly
 		m["action"] = processPattern.Action
 		m["severity"] = processPattern.Severity
-		// m["tags"] = processPattern.Tags
+		m["tags"] = processPattern.Tags
 		m["message"] = processPattern.Message
 		matchPatterns[i] = m
 	}
@@ -514,7 +543,7 @@ func flattenProcess(process kcV1.ProcessType) []interface{} {
 
 	processType["action"] = process.Action
 	processType["severity"] = process.Severity
-	// processType["tags"] = process.Tags
+	processType["tags"] = process.Tags
 	processType["message"] = process.Message
 
 	return []interface{}{processType}
@@ -527,7 +556,7 @@ func flattenMatchCapabilities(in []kcV1.MatchCapabilitiesType) []interface{} {
 		m["capabilities"] = match_capabilities.Capability
 		m["action"] = match_capabilities.Action
 		m["severity"] = match_capabilities.Severity
-		// m["tags"] = match_capabilities.Tags
+		m["tags"] = match_capabilities.Tags
 		m["message"] = match_capabilities.Message
 		m["from_source"] = flattenFromSource(match_capabilities.FromSource)
 		matchCapabilities[i] = m
@@ -541,7 +570,7 @@ func flattenCapabilities(capabilities kcV1.CapabilitiesType) []interface{} {
 
 	capabilitiesType["action"] = capabilities.Action
 	capabilitiesType["severity"] = capabilities.Severity
-	// capabilitiesType["tags"] = capabilities.Tags
+	capabilitiesType["tags"] = capabilities.Tags
 	capabilitiesType["message"] = capabilities.Message
 
 	return []interface{}{capabilitiesType}
@@ -555,7 +584,7 @@ func flattenMatchProtocol(in []kcV1.MatchNetworkProtocolType) []interface{} {
 		m["from_source"] = flattenFromSource(match_protocols.FromSource)
 		m["action"] = match_protocols.Action
 		m["severity"] = match_protocols.Severity
-		// m["tags"] = match_protocols.Tags
+		m["tags"] = match_protocols.Tags
 		m["message"] = match_protocols.Message
 
 		matchProtocol[i] = m
@@ -569,55 +598,59 @@ func flattenNetworks(network kcV1.NetworkType) []interface{} {
 
 	networkType["action"] = network.Action
 	networkType["severity"] = network.Severity
-	// networkType["tags"] = network.Tags
+	networkType["tags"] = network.Tags
 	networkType["message"] = network.Message
 
 	return []interface{}{networkType}
 }
 
-// func flattenSyscallFromSource(in []kcV1.SyscallFromSourceType) []interface{} {
-// 	fromSource := make([]interface{}, len(in))
-// 	for i, fs := range in {
-// 		m := make(map[string]interface{})
-// 		m["path"] = fs.Path
-// 		m["dir"] = fs.Dir
-// 		m["recursive"] = fs.Recursive
-// 		fromSource[i] = m
-// 	}
-// 	return fromSource
-// }
+func flattenSyscallFromSource(in []kcV1.SyscallFromSourceType) []interface{} {
+	fromSource := make([]interface{}, len(in))
+	for i, fs := range in {
+		m := make(map[string]interface{})
+		m["path"] = fs.Path
+		m["dir"] = fs.Dir
+		m["recursive"] = fs.Recursive
+		fromSource[i] = m
+	}
+	return fromSource
+}
 
-// func flattenMatchSyscalls(in []kcV1.SyscallMatchType) []interface{} {
-// 	SyscallMatchType := make([]interface{}, len(in))
-// 	for i, match_syscalls := range in {
-// 		m := make(map[string]interface{})
-// 		// m["syscall"] = match_syscalls.Syscalls
-// 		m["from_source"] = flattenSyscallFromSource(match_syscalls.FromSource)
-// 		SyscallMatchType[i] = m
-// 	}
-// 	return SyscallMatchType
-// }
+func flattenMatchSyscalls(in []kcV1.SyscallMatchType) []interface{} {
+	SyscallMatchType := make([]interface{}, len(in))
+	for i, match_syscalls := range in {
+		m := make(map[string]interface{})
+		m["syscall"] = match_syscalls.Syscalls
+		m["from_source"] = flattenSyscallFromSource(match_syscalls.FromSource)
+		SyscallMatchType[i] = m
+	}
+	return SyscallMatchType
+}
 
-// func flattenMatchSyscallPaths(in []kcV1.SyscallMatchPathType) []interface{} {
-// 	SyscallMatchPathType := make([]interface{}, len(in))
-// 	for i, match_syscalls_paths := range in {
-// 		m := make(map[string]interface{})
-// 		m["path"] = match_syscalls_paths.Path
-// 		m["recursive"] = match_syscalls_paths.Recursive
-// 		// m["syscall"] = match_syscalls_paths.Syscalls
-// 		m["from_source"] = flattenSyscallFromSource(match_syscalls_paths.FromSource)
-// 		SyscallMatchPathType[i] = m
-// 	}
-// 	return SyscallMatchPathType
-// }
+func flattenMatchSyscallPaths(in []kcV1.SyscallMatchPathType) []interface{} {
+	SyscallMatchPathType := make([]interface{}, len(in))
+	for i, match_syscalls_paths := range in {
+		m := make(map[string]interface{})
+		m["path"] = match_syscalls_paths.Path
+		m["recursive"] = match_syscalls_paths.Recursive
+		m["syscall"] = match_syscalls_paths.Syscalls
+		m["from_source"] = flattenSyscallFromSource(match_syscalls_paths.FromSource)
+		SyscallMatchPathType[i] = m
+	}
+	return SyscallMatchPathType
+}
 
-// func flattenSyscalls(syscalls kcV1.SyscallsType) []interface{} {
-// 	SyscallsType := make(map[string]interface{})
-// 	SyscallsType["match_syscalls"] = flattenMatchSyscalls(syscalls.MatchSyscalls)
-// 	SyscallsType["match_paths"] = flattenMatchSyscallPaths(syscalls.MatchPaths)
+func flattenSyscalls(syscalls kcV1.SyscallsType) []interface{} {
+	SyscallsType := make(map[string]interface{})
+	SyscallsType["match_syscalls"] = flattenMatchSyscalls(syscalls.MatchSyscalls)
+	SyscallsType["match_paths"] = flattenMatchSyscallPaths(syscalls.MatchPaths)
 
-// 	return []interface{}{SyscallsType}
-// }
+	SyscallsType["message"] = syscalls.Message
+	SyscallsType["severity"] = syscalls.Severity
+	SyscallsType["tags"] = syscalls.Tags
+
+	return []interface{}{SyscallsType}
+}
 
 func flattenMatchLabels(labels map[string]string) map[string]string {
 	label := make(map[string]string)
@@ -641,13 +674,13 @@ func flattenPolicy(policy *kcV1.KubeArmorPolicy) []interface{} {
 	pol["namespace"] = policy.ObjectMeta.Namespace
 	pol["action"] = policy.Spec.Action
 	pol["severity"] = policy.Spec.Severity
-	// pol["tags"] = policy.Spec.Tags
+	pol["tags"] = policy.Spec.Tags
 	pol["message"] = policy.Spec.Message
 	pol["file"] = flattenFile(policy.Spec.File)
 	pol["process"] = flattenProcess(policy.Spec.Process)
 	pol["capabilities"] = flattenCapabilities(policy.Spec.Capabilities)
 	pol["network"] = flattenNetworks(policy.Spec.Network)
-	// pol["syscalls"] = flattenSyscalls(policy.Spec.Syscalls)
+	pol["syscalls"] = flattenSyscalls(policy.Spec.Syscalls)
 	pol["selector"] = flattenSelector(policy.Spec.Selector)
 
 	return []interface{}{pol}

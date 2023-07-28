@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.27.0
 	github.com/kubearmor/KubeArmor/KubeArmor v0.0.0-20230704182508-0dd8f8bb9507
-	github.com/kubearmor/KubeArmor/pkg/KubeArmorController v0.0.0-20230711122007-7ab3a56cfd76
+	github.com/kubearmor/KubeArmor/pkg/KubeArmorController v0.0.0-20230728062853-562216a619b8
 	github.com/kubearmor/kubearmor-client v0.13.11
 	github.com/rs/zerolog v1.29.1
 	k8s.io/apimachinery v0.27.3
