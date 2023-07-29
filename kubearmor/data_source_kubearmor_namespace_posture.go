@@ -3,6 +3,7 @@ package kubearmor
 import (
 	"context"
 
+	"github.com/accuknox/terraform-provider-accuknox/clienthandler"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/rs/zerolog/log"
@@ -10,7 +11,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-func dataSourceKubearmorNsPosture() *schema.Resource {
+func DataSourceKubearmorNsPosture() *schema.Resource {
 	return &schema.Resource{
 		ReadContext: dataSourceKubearmorNsPostureRead,
 		Schema: map[string]*schema.Schema{
@@ -28,7 +29,7 @@ func dataSourceKubearmorNsPosture() *schema.Resource {
 
 func dataSourceKubearmorNsPostureRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	annotation := make(map[string]string)
-	client, err := connectK8sClient()
+	client, err := clienthandler.ConnectK8sClient()
 	if err != nil {
 		return diag.FromErr(err)
 	}

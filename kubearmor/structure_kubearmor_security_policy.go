@@ -686,11 +686,11 @@ func flattenPolicy(policy *kcV1.KubeArmorPolicy) []interface{} {
 	return []interface{}{pol}
 }
 
-func buildId(meta metav1.ObjectMeta) string {
+func BuildId(meta metav1.ObjectMeta) string {
 	return meta.Namespace + "/" + meta.Name
 }
 
-func idParts(id string) (string, string, error) {
+func IdParts(id string) (string, string, error) {
 	parts := strings.Split(id, "/")
 	if len(parts) != 2 {
 		err := fmt.Errorf("unexpected ID format (%q), expected %q", id, "namespace/name")

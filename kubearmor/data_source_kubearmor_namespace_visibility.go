@@ -3,6 +3,7 @@ package kubearmor
 import (
 	"context"
 
+	"github.com/accuknox/terraform-provider-accuknox/clienthandler"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/rs/zerolog/log"
@@ -10,7 +11,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-func dataSourceKubearmorNsVisibility() *schema.Resource {
+func DataSourceKubearmorNsVisibility() *schema.Resource {
 	return &schema.Resource{
 		ReadContext: dataSourceKubearmorNsVisibilityRead,
 		Schema: map[string]*schema.Schema{
@@ -27,7 +28,7 @@ func dataSourceKubearmorNsVisibility() *schema.Resource {
 }
 
 func dataSourceKubearmorNsVisibilityRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	client, err := connectK8sClient()
+	client, err := clienthandler.ConnectK8sClient()
 	if err != nil {
 		return diag.FromErr(err)
 	}

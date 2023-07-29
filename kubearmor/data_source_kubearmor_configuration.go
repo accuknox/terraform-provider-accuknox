@@ -8,7 +8,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-func dataSourceKubearmorConfiguration() *schema.Resource {
+func DataSourceKubearmorConfiguration() *schema.Resource {
 	return &schema.Resource{
 		ReadContext: dataSourceKubearmorConfigurationRead,
 		Schema: map[string]*schema.Schema{
@@ -33,7 +33,7 @@ func dataSourceKubearmorConfigurationRead(ctx context.Context, d *schema.Resourc
 		Namespace: d.Get("namespace").(string),
 		Name:      d.Get("name").(string),
 	}
-	d.SetId(buildId(om))
+	d.SetId(BuildId(om))
 
 	return resourceKubeArmorConfigurationRead(ctx, d, meta)
 }
