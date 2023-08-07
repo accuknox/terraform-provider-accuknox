@@ -3,6 +3,7 @@ package kubearmor
 import (
 	"context"
 
+	"github.com/accuknox/terraform-provider-accuknox/clienthandler"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/rs/zerolog/log"
@@ -10,7 +11,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-func dataSourceKubearmorSecurityPolicy() *schema.Resource {
+func DataSourceKubearmorSecurityPolicy() *schema.Resource {
 	return &schema.Resource{
 		ReadContext: dataSourceKubearmorSecurityPolicyRead,
 		Schema: map[string]*schema.Schema{
@@ -647,7 +648,7 @@ func dataSourceKubearmorSecurityPolicy() *schema.Resource {
 }
 
 func dataSourceKubearmorSecurityPolicyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	KSPClient, err := connectKubearmorClient()
+	KSPClient, err := clienthandler.ConnectKubearmorClient()
 	if err != nil {
 		return diag.FromErr(err)
 	}

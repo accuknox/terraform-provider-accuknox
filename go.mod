@@ -3,11 +3,13 @@ module github.com/accuknox/terraform-provider-accuknox
 go 1.20
 
 require (
+	github.com/accuknox/auto-policy-discovery/pkg/discoveredpolicy v0.0.0-20230726092521-bd4edf29a2c0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.27.0
 	github.com/kubearmor/KubeArmor/KubeArmor v0.0.0-20230704182508-0dd8f8bb9507
 	github.com/kubearmor/KubeArmor/pkg/KubeArmorController v0.0.0-20230728062853-562216a619b8
 	github.com/kubearmor/kubearmor-client v0.13.11
 	github.com/rs/zerolog v1.29.1
+	k8s.io/apiextensions-apiserver v0.27.3
 	k8s.io/apimachinery v0.27.3
 	k8s.io/client-go v0.27.3
 	sigs.k8s.io/controller-runtime v0.15.0
@@ -108,7 +110,6 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	k8s.io/api v0.27.3 // indirect
-	k8s.io/apiextensions-apiserver v0.27.3 // indirect
 	k8s.io/cli-runtime v0.27.1 // indirect
 	k8s.io/component-base v0.27.3 // indirect
 	k8s.io/klog/v2 v2.100.1 // indirect

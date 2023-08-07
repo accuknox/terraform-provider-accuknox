@@ -5,6 +5,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/accuknox/terraform-provider-accuknox/clienthandler"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	kcV1 "github.com/kubearmor/KubeArmor/pkg/KubeArmorController/api/security.kubearmor.com/v1"
@@ -14,7 +15,7 @@ import (
 	"k8s.io/apimachinery/pkg/util/yaml"
 )
 
-func resourceKubearmorSecurityPolicy() *schema.Resource {
+func ResourceKubearmorSecurityPolicy() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: resourceKubearmorSecurityPolicyCreate,
 		ReadContext:   resourceKubearmorSecurityPolicyRead,
@@ -653,7 +654,7 @@ func resourceKubearmorSecurityPolicy() *schema.Resource {
 }
 
 func resourceKubearmorSecurityPolicyCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	KSPClient, err := connectKubearmorClient()
+	KSPClient, err := clienthandler.ConnectKubearmorClient()
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -681,7 +682,7 @@ func resourceKubearmorSecurityPolicyCreate(ctx context.Context, d *schema.Resour
 	if ksp.ObjectMeta.Namespace == "" {
 		ksp.Namespace = "default"
 	}
-	d.SetId(buildId(ksp.ObjectMeta))
+	d.SetId(BuildId(ksp.ObjectMeta))
 
 	_, err = KSPClient.SecurityV1().KubeArmorPolicies(ksp.Namespace).Create(context.Background(), ksp, metav1.CreateOptions{})
 	if err != nil {
@@ -695,12 +696,12 @@ func resourceKubearmorSecurityPolicyCreate(ctx context.Context, d *schema.Resour
 }
 
 func resourceKubearmorSecurityPolicyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	KSPClient, err := connectKubearmorClient()
+	KSPClient, err := clienthandler.ConnectKubearmorClient()
 	if err != nil {
 		return diag.FromErr(err)
 	}
 
-	namespace, name, err := idParts(d.Id())
+	namespace, name, err := IdParts(d.Id())
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -732,14 +733,14 @@ func resourceKubearmorSecurityPolicyRead(ctx context.Context, d *schema.Resource
 }
 
 func resourceKubearmorSecurityPolicyUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	KSPClient, err := connectKubearmorClient()
+	KSPClient, err := clienthandler.ConnectKubearmorClient()
 	if err != nil {
 		return diag.FromErr(err)
 	}
 
 	var ksp *kcV1.KubeArmorPolicy
 
-	namespace, name, err := idParts(d.Id())
+	namespace, name, err := IdParts(d.Id())
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -764,12 +765,12 @@ func resourceKubearmorSecurityPolicyUpdate(ctx context.Context, d *schema.Resour
 }
 
 func resourceKubearmorSecurityPolicyDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	KSPClient, err := connectKubearmorClient()
+	KSPClient, err := clienthandler.ConnectKubearmorClient()
 	if err != nil {
 		return diag.FromErr(err)
 	}
 
-	namespace, name, err := idParts(d.Id())
+	namespace, name, err := IdParts(d.Id())
 	if err != nil {
 		return diag.FromErr(err)
 	}

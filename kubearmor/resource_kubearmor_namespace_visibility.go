@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/accuknox/terraform-provider-accuknox/clienthandler"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/rs/zerolog/log"
@@ -14,13 +15,13 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-func resourceNsVisibility() *schema.Resource {
+func ResourceKubearmorNamespaceVisibility() *schema.Resource {
 
 	return &schema.Resource{
-		CreateContext: resourceNsVisibiltyCreate,
-		ReadContext:   resourceNsVisibiltyRead,
-		UpdateContext: resourceNsVisibiltyUpdate,
-		DeleteContext: resourceNsVisibiltyDelete,
+		CreateContext: resourceKubearmorNamespaceVisibiltyCreate,
+		ReadContext:   resourceKubearmorNamespaceVisibiltyRead,
+		UpdateContext: resourceKubearmorNamespaceVisibiltyUpdate,
+		DeleteContext: resourceKubearmorNamespaceVisibiltyDelete,
 		Schema: map[string]*schema.Schema{
 			"namespace": {
 				Type:     schema.TypeString,
@@ -52,21 +53,21 @@ func resourceNsVisibility() *schema.Resource {
 	}
 }
 
-func resourceNsVisibiltyCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceKubearmorNamespaceVisibiltyCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	name := d.Get("namespace").(string)
 	d.SetId(name)
 
-	diag := resourceNsVisibiltyUpdate(ctx, d, meta)
+	diag := resourceKubearmorNamespaceVisibiltyUpdate(ctx, d, meta)
 	if diag.HasError() {
 		d.SetId("")
 	}
 
-	return resourceNsVisibiltyRead(ctx, d, meta)
+	return resourceKubearmorNamespaceVisibiltyRead(ctx, d, meta)
 }
 
-func resourceNsVisibiltyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceKubearmorNamespaceVisibiltyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var annotation string
-	client, err := connectK8sClient()
+	client, err := clienthandler.ConnectK8sClient()
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -111,9 +112,9 @@ func resourceNsVisibiltyRead(ctx context.Context, d *schema.ResourceData, meta i
 	return nil
 }
 
-func resourceNsVisibiltyUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceKubearmorNamespaceVisibiltyUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	var visibility []string
-	client, err := connectK8sClient()
+	client, err := clienthandler.ConnectK8sClient()
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -161,11 +162,11 @@ func resourceNsVisibiltyUpdate(ctx context.Context, d *schema.ResourceData, meta
 
 	d.Set("last_updated", time.Now().Format(time.RFC850))
 
-	return resourceNsVisibiltyRead(ctx, d, meta)
+	return resourceKubearmorNamespaceVisibiltyRead(ctx, d, meta)
 }
 
-func resourceNsVisibiltyDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	client, err := connectK8sClient()
+func resourceKubearmorNamespaceVisibiltyDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+	client, err := clienthandler.ConnectK8sClient()
 	if err != nil {
 		return diag.FromErr(err)
 	}
