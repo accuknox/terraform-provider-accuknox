@@ -5,6 +5,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/accuknox/terraform-provider-accuknox/clienthandler"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	kcV1 "github.com/kubearmor/KubeArmor/pkg/KubeArmorController/api/security.kubearmor.com/v1"
@@ -14,7 +15,7 @@ import (
 	"k8s.io/apimachinery/pkg/util/yaml"
 )
 
-func resourceKubearmorHostSecurityPolicy() *schema.Resource {
+func ResourceKubearmorHostSecurityPolicy() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: resourceKubearmorHostSecurityPolicyCreate,
 		ReadContext:   resourceKubearmorHostSecurityPolicyRead,
@@ -648,7 +649,7 @@ func resourceKubearmorHostSecurityPolicy() *schema.Resource {
 }
 
 func resourceKubearmorHostSecurityPolicyCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	KSPClient, err := connectKubearmorClient()
+	KSPClient, err := clienthandler.ConnectKubearmorClient()
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -689,7 +690,7 @@ func resourceKubearmorHostSecurityPolicyCreate(ctx context.Context, d *schema.Re
 }
 
 func resourceKubearmorHostSecurityPolicyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	KSPClient, err := connectKubearmorClient()
+	KSPClient, err := clienthandler.ConnectKubearmorClient()
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -721,7 +722,7 @@ func resourceKubearmorHostSecurityPolicyRead(ctx context.Context, d *schema.Reso
 }
 
 func resourceKubearmorHostSecurityPolicyUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	KSPClient, err := connectKubearmorClient()
+	KSPClient, err := clienthandler.ConnectKubearmorClient()
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -745,7 +746,7 @@ func resourceKubearmorHostSecurityPolicyUpdate(ctx context.Context, d *schema.Re
 }
 
 func resourceKubearmorHostSecurityPolicyDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	KSPClient, err := connectKubearmorClient()
+	KSPClient, err := clienthandler.ConnectKubearmorClient()
 	if err != nil {
 		return diag.FromErr(err)
 	}

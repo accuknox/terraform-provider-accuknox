@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-func dataSourceKubearmorStableVersion() *schema.Resource {
+func DataSourceKubearmorStableVersion() *schema.Resource {
 	return &schema.Resource{
 		ReadContext: dataSourceKubearmorStableVersionRead,
 		Schema: map[string]*schema.Schema{

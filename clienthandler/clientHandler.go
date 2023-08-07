@@ -1,12 +1,13 @@
-package kubearmor
+package clienthandler
 
 import (
+	dsp "github.com/accuknox/auto-policy-discovery/pkg/discoveredpolicy/client/clientset/versioned/typed/security.kubearmor.com/v1"
 	kspclient "github.com/kubearmor/KubeArmor/pkg/KubeArmorController/client/clientset/versioned"
 	"k8s.io/client-go/kubernetes"
 	ctrl "sigs.k8s.io/controller-runtime"
 )
 
-func connectK8sClient() (*kubernetes.Clientset, error) {
+func ConnectK8sClient() (*kubernetes.Clientset, error) {
 	config, err := ctrl.GetConfig()
 	if err != nil {
 		return nil, err
@@ -20,7 +21,7 @@ func connectK8sClient() (*kubernetes.Clientset, error) {
 	return clientset, nil
 }
 
-func connectKubearmorClient() (*kspclient.Clientset, error) {
+func ConnectKubearmorClient() (*kspclient.Clientset, error) {
 	config, err := ctrl.GetConfig()
 	if err != nil {
 		return nil, err
@@ -32,4 +33,18 @@ func connectKubearmorClient() (*kspclient.Clientset, error) {
 	}
 
 	return KSPClient, nil
+}
+
+func ConnectDiscoveryEngineClient() (*dsp.SecurityV1Client, error) {
+	config, err := ctrl.GetConfig()
+	if err != nil {
+		return nil, err
+	}
+
+	DSPClient, err := dsp.NewForConfig(config)
+	if err != nil {
+		return nil, err
+	}
+
+	return DSPClient, nil
 }

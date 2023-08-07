@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"time"
 
+	"github.com/accuknox/terraform-provider-accuknox/clienthandler"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/rs/zerolog/log"
@@ -13,12 +14,12 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-func resourceNsPosture() *schema.Resource {
+func ResourceKubearmorNamespacePosture() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: resourceNsPostureCreate,
-		ReadContext:   resourceNsPostureRead,
-		UpdateContext: resourceNsPostureUpdate,
-		DeleteContext: resourceNsPostureDelete,
+		CreateContext: resourceKubearmorNamespacePostureCreate,
+		ReadContext:   resourceKubearmorNamespacePostureRead,
+		UpdateContext: resourceKubearmorNamespacePostureUpdate,
+		DeleteContext: resourceKubearmorNamespacePostureDelete,
 		Schema: map[string]*schema.Schema{
 			"namespace": {
 				Type:     schema.TypeString,
@@ -46,20 +47,20 @@ func resourceNsPosture() *schema.Resource {
 	}
 }
 
-func resourceNsPostureCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceKubearmorNamespacePostureCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	name := d.Get("namespace").(string)
 	d.SetId(name)
 
-	diag := resourceNsPostureUpdate(ctx, d, meta)
+	diag := resourceKubearmorNamespacePostureUpdate(ctx, d, meta)
 	if diag.HasError() {
 		d.SetId("")
 	}
 
-	return resourceNsPostureRead(ctx, d, meta)
+	return resourceKubearmorNamespacePostureRead(ctx, d, meta)
 }
 
-func resourceNsPostureRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	client, err := connectK8sClient()
+func resourceKubearmorNamespacePostureRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+	client, err := clienthandler.ConnectK8sClient()
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -90,8 +91,8 @@ func resourceNsPostureRead(ctx context.Context, d *schema.ResourceData, meta int
 	return nil
 }
 
-func resourceNsPostureUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	client, err := connectK8sClient()
+func resourceKubearmorNamespacePostureUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+	client, err := clienthandler.ConnectK8sClient()
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -129,11 +130,11 @@ func resourceNsPostureUpdate(ctx context.Context, d *schema.ResourceData, meta i
 	d.SetId(name)
 	d.Set("last_updated", time.Now().Format(time.RFC850))
 
-	return resourceNsPostureRead(ctx, d, meta)
+	return resourceKubearmorNamespacePostureRead(ctx, d, meta)
 }
 
-func resourceNsPostureDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	client, err := connectK8sClient()
+func resourceKubearmorNamespacePostureDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+	client, err := clienthandler.ConnectK8sClient()
 	if err != nil {
 		return diag.FromErr(err)
 	}

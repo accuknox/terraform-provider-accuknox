@@ -14,7 +14,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-func dataSourceKubearmorNode() *schema.Resource {
+func DataSourceKubearmorNode() *schema.Resource {
 	return &schema.Resource{
 		ReadContext: dataSourceKubearmorNodeRead,
 		Schema: map[string]*schema.Schema{

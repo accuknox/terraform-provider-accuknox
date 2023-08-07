@@ -5,13 +5,14 @@ import (
 	"encoding/json"
 	"time"
 
+	"github.com/accuknox/terraform-provider-accuknox/clienthandler"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
 
-func resourceKubearmorConfiguration() *schema.Resource {
+func ResourceKubearmorConfiguration() *schema.Resource {
 
 	return &schema.Resource{
 		CreateContext: resourceKubeArmorConfigurationCreate,
@@ -55,12 +56,12 @@ func resourceKubeArmorConfigurationCreate(ctx context.Context, d *schema.Resourc
 }
 
 func resourceKubeArmorConfigurationRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	client, err := connectK8sClient()
+	client, err := clienthandler.ConnectK8sClient()
 	if err != nil {
 		return diag.FromErr(err)
 	}
 
-	namespace, name, err := idParts(d.Id())
+	namespace, name, err := IdParts(d.Id())
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -76,7 +77,7 @@ func resourceKubeArmorConfigurationRead(ctx context.Context, d *schema.ResourceD
 }
 
 func resourceKubeArmorConfigurationUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	client, err := connectK8sClient()
+	client, err := clienthandler.ConnectK8sClient()
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -89,7 +90,7 @@ func resourceKubeArmorConfigurationUpdate(ctx context.Context, d *schema.Resourc
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	namespace, name, err := idParts(d.Id())
+	namespace, name, err := IdParts(d.Id())
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -104,7 +105,7 @@ func resourceKubeArmorConfigurationUpdate(ctx context.Context, d *schema.Resourc
 }
 
 func resourceKubeArmorConfigurationDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	client, err := connectK8sClient()
+	client, err := clienthandler.ConnectK8sClient()
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -112,7 +113,7 @@ func resourceKubeArmorConfigurationDelete(ctx context.Context, d *schema.Resourc
 		return diag.FromErr(err)
 	}
 
-	namespace, name, err := idParts(d.Id())
+	namespace, name, err := IdParts(d.Id())
 	if err != nil {
 		return diag.FromErr(err)
 	}
