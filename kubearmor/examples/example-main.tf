@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     accuknox = {
-      source = "terraform.example.com/local/accuknox"
+      source  = "terraform.example.com/local/accuknox"
       version = "1.0.0"
     }
   }
@@ -13,49 +13,49 @@ provider "accuknox" {
 // resources
 
 resource "accuknox_kubearmor_security_policy" "ksp-vault-protect" {
-  name="ksp-vault-protect"
-  namespace= "default"
-  severity= 7
-  action= "Allow"
-  
+  name      = "ksp-vault-protect"
+  namespace = "default"
+  severity  = 7
+  action    = "Allow"
+
   selector {
-    match_labels= {
-      "app.kubernetes.io/name": "vault",
-      "component": "server"
+    match_labels = {
+      "app.kubernetes.io/name" : "vault",
+      "component" : "server"
     }
   }
-  
+
   file {
-    match_directories{
-        dir= "/vault/"
-        recursive= true
-        action= "Block"
+    match_directories {
+      dir       = "/vault/"
+      recursive = true
+      action    = "Block"
+    }
+    match_directories {
+      dir       = "/"
+      recursive = true
+    }
+    match_directories {
+      dir       = "/vault/"
+      recursive = true
+      from_source {
+        path = "/bin/vault"
       }
-    match_directories{
-        dir= "/"
-        recursive= true
-      }
-    match_directories{
-        dir= "/vault/"
-        recursive= true
-        from_source{
-            path= "/bin/vault"
-          }
-      }
+    }
   }
 
   process {
-    match_paths{
-        path= "/bin/busybox"
-      }
-    match_paths{
-        path= "/bin/vault"
-      }
+    match_paths {
+      path = "/bin/busybox"
+    }
+    match_paths {
+      path = "/bin/vault"
+    }
   }
 }
 
 resource "accuknox_kubearmor_security_policy" "block-pkg-mgmt-tools-exec" {
-  policy= <<-EOT
+  policy = <<-EOT
   apiVersion: security.kubearmor.com/v1
   kind: KubeArmorPolicy
   metadata:
@@ -75,7 +75,7 @@ resource "accuknox_kubearmor_security_policy" "block-pkg-mgmt-tools-exec" {
 
 
 resource "accuknox_kubearmor_host_security_policy" "hsp-kubearmor-dev-proc-path-block" {
-  policy= <<-EOT
+  policy = <<-EOT
   apiVersion: security.kubearmor.com/v1
   kind: KubeArmorHostPolicy
   metadata:
@@ -94,52 +94,52 @@ resource "accuknox_kubearmor_host_security_policy" "hsp-kubearmor-dev-proc-path-
 }
 
 resource "accuknox_kubearmor_host_security_policy" "hsp-kubearmor-dev-file-path-audit" {
-  name="hsp-kubearmor-dev-file-path-audit"
-  severity= 5
-  action= "Audit"
-  
+  name     = "hsp-kubearmor-dev-file-path-audit"
+  severity = 5
+  action   = "Audit"
+
   node_selector {
-    match_labels= {
-      "kubernetes.io/hostname": "kubearmor-dev",
+    match_labels = {
+      "kubernetes.io/hostname" : "kubearmor-dev",
     }
   }
-  
+
   file {
-    match_paths{
-        path= "/etc/passwd"
-      }
+    match_paths {
+      path = "/etc/passwd"
+    }
   }
 }
 
 
 resource "accuknox_kubearmor_namespace_visibility" "visib-ns1" {
-  namespace     = "wordpress-mysql"
-  file          = true
-  network       = true
-  capabilities  = true
-  process       = true
+  namespace    = "wordpress-mysql"
+  file         = true
+  network      = true
+  capabilities = true
+  process      = true
 }
 
 resource "accuknox_kubearmor_namespace_posture" "ns_pos" {
-  namespace     = "wordpress-mysql"
-  file          = "block"
-  network       = "block"
-  capabilities  = "audit"
+  namespace    = "wordpress-mysql"
+  file         = "block"
+  network      = "block"
+  capabilities = "audit"
 }
 
 resource "accuknox_kubearmor_configuration" "conf" {
-  name="kubearmor-config"
-  namespace="kube-system"
-  data={
-    "defaultCapabilitiesPosture"="audit",
+  name      = "kubearmor-config"
+  namespace = "kube-system"
+  data = {
+    "defaultCapabilitiesPosture" = "audit",
   }
 }
 
 // data-sources
 
 data "accuknox_kubearmor_configuration" "data_cm" {
-  name="kubearmor-config"
-  namespace="kube-system"
+  name      = "kubearmor-config"
+  namespace = "kube-system"
 }
 
 output "data_cm" {
@@ -147,7 +147,7 @@ output "data_cm" {
 }
 
 data "accuknox_kubearmor_host_security_policy" "host-policy" {
-  name="hsp-kubearmor-dev-proc-path-block"
+  name = "hsp-kubearmor-dev-proc-path-block"
 }
 
 output "host-policy" {
@@ -167,7 +167,7 @@ output "k_node" {
 }
 
 data "accuknox_kubearmor_namespace_posture" "ns_ps" {
-  name="kube-system"
+  name = "kube-system"
 }
 
 output "ns_ps" {
@@ -175,7 +175,7 @@ output "ns_ps" {
 }
 
 data "accuknox_kubearmor_namespace_visibility" "ns_vs" {
-  name="kube-system"
+  name = "kube-system"
 }
 
 output "ns_vs" {
@@ -184,8 +184,8 @@ output "ns_vs" {
 
 
 data "accuknox_kubearmor_security_policy" "pkg-mgmt" {
-  name="block-pkg-mgmt-tools-exec"
-  namespace="default"
+  name      = "block-pkg-mgmt-tools-exec"
+  namespace = "default"
 }
 
 output "pkg-mgmt" {

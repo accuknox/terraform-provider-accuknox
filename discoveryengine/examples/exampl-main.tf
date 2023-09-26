@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     accuknox = {
-      source = "terraform.example.com/local/accuknox"
+      source  = "terraform.example.com/local/accuknox"
       version = "1.0.0"
     }
   }
@@ -12,10 +12,10 @@ provider "accuknox" {
 
 // resources
 
-resource "accuknox_discovery_engine_discovered_policy" "dsp"{
-  name="autopol-system-3960684242"
-  namespace="wordpress-mysql"
-  policy= <<-EOT
+resource "accuknox_discovery_engine_discovered_policy" "dsp" {
+  name      = "autopol-system-3960684242"
+  namespace = "wordpress-mysql"
+  policy    = <<-EOT
 apiVersion: security.kubearmor.com/v1
 kind: KubeArmorPolicy
 metadata:
@@ -50,9 +50,9 @@ spec:
   EOT
 }
 
-resource "accuknox_discovery_engine_enable_discovered_policy" "dsp_enable"{
-  name="autopol-system-3960684242"
-  namespace="wordpress-mysql"
+resource "accuknox_discovery_engine_enable_discovered_policy" "dsp_enable" {
+  name      = "autopol-system-3960684242"
+  namespace = "wordpress-mysql"
 }
 
 resource "accuknox_discovery_engine_configuration" "example_config" {
@@ -163,9 +163,9 @@ resource "accuknox_discovery_engine_configuration" "example_config" {
 
 //data sources
 
-data "accuknox_discovery_engine_discovered_policy" "dsp"{
-  name="autopol-system-3960684242"
-  namespace="wordpress-mysql"
+data "accuknox_discovery_engine_discovered_policy" "dsp" {
+  name      = "autopol-system-3960684242"
+  namespace = "wordpress-mysql"
 }
 
 output "dsp" {
@@ -173,8 +173,8 @@ output "dsp" {
 }
 
 data "accuknox_discovery_engine_configuration" "data_cm" {
-  name="discovery-engine-config"
-  namespace="accuknox-agents"
+  name      = "discovery-engine-config"
+  namespace = "accuknox-agents"
 }
 
 output "data_cm" {
